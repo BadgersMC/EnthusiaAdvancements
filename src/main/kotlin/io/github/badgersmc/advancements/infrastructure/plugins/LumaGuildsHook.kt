@@ -6,6 +6,8 @@ import io.github.badgersmc.advancements.application.ports.PluginHook
 import io.github.badgersmc.advancements.domain.RequirementType
 import net.badgersmc.nexus.annotations.Component
 import net.badgersmc.nexus.annotations.PostConstruct
+import net.lumalyte.lg.domain.events.GuildCreatedEvent
+import net.lumalyte.lg.domain.events.GuildMemberJoinEvent
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -39,30 +41,14 @@ class LumaGuildsHook(
     }
 
     @EventHandler
-    fun onGuildCreated(event: org.bukkit.event.Event) {
-        // Uses reflection-style approach: listen for any event and check class name
-        // This avoids compile-time dependency on LumaGuilds event classes
-        if (event.javaClass.simpleName != "GuildCreatedEvent") return
-
-        try {
-            val playerMethod = event.javaClass.getMethod("getPlayer")
-            val player = playerMethod.invoke(event) as? org.bukkit.entity.Player ?: return
-            GrantProgress.execute(registry, RequirementType.GUILD_CREATE, null, player)
-        } catch (e: Exception) {
-            plugin.logger.warning("Failed to handle GuildCreatedEvent: ${e.message}")
-        }
+    fun onGuildCreated(event: GuildCreatedEvent) {
+        val player = Bukkit.getPlayer(event.ownerId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_CREATE, null, player)
     }
 
     @EventHandler
-    fun onGuildMemberJoin(event: org.bukkit.event.Event) {
-        if (event.javaClass.simpleName != "GuildMemberJoinEvent") return
-
-        try {
-            val playerMethod = event.javaClass.getMethod("getPlayer")
-            val player = playerMethod.invoke(event) as? org.bukkit.entity.Player ?: return
-            GrantProgress.execute(registry, RequirementType.GUILD_MEMBER_JOIN, null, player)
-        } catch (e: Exception) {
-            plugin.logger.warning("Failed to handle GuildMemberJoinEvent: ${e.message}")
-        }
+    fun onGuildMemberJoin(event: GuildMemberJoinEvent) {
+        val player = Bukkit.getPlayer(event.playerId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_MEMBER_JOIN, null, player)
     }
 }

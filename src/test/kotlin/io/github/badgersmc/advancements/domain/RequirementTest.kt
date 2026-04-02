@@ -11,7 +11,7 @@ class RequirementTest {
         val expected = setOf(
             "BLOCK_BREAK", "BLOCK_PLACE", "ENTITY_KILL", "CRAFT_ITEM",
             "PLAYER_KILL", "PLAYER_JOIN",
-            "GUILD_CREATE", "GUILD_LEVEL", "GUILD_MEMBER_JOIN"
+            "GUILD_CREATE", "GUILD_MEMBER_JOIN"
         )
         val actual = RequirementType.entries.map { it.name }.toSet()
         assertEquals(expected, actual)
@@ -19,7 +19,7 @@ class RequirementTest {
 
     @Test
     fun `requirement type count is 9`() {
-        assertEquals(9, RequirementType.entries.size)
+        assertEquals(8, RequirementType.entries.size)
     }
 
     @Test

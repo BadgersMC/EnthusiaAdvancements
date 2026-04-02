@@ -100,7 +100,6 @@ Requirements define what the plugin automatically tracks for progression.
 | `PLAYER_KILL` | — | `{ type = "PLAYER_KILL", amount = 5 }` |
 | `PLAYER_JOIN` | — | `{ type = "PLAYER_JOIN", amount = 1 }` |
 | `GUILD_CREATE` | — | `{ type = "GUILD_CREATE", amount = 1 }` (requires LumaGuilds) |
-| `GUILD_LEVEL` | — | `{ type = "GUILD_LEVEL", amount = 5 }` (requires LumaGuilds) |
 | `GUILD_MEMBER_JOIN` | — | `{ type = "GUILD_MEMBER_JOIN", amount = 3 }` (requires LumaGuilds) |
 
 ### Reward Types

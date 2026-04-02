@@ -8,7 +8,6 @@ enum class RequirementType {
     PLAYER_KILL,
     PLAYER_JOIN,
     GUILD_CREATE,
-    GUILD_LEVEL,
     GUILD_MEMBER_JOIN
 }
 
