@@ -1,0 +1,15 @@
+name: EnthusiaAdvancements
+version: '1.0.0'
+main: io.github.badgersmc.advancements.EnthusiaAdvancementsPlugin
+api-version: '1.21'
+description: Config-driven custom advancement trees
+authors:
+  - BadgersMC
+dependencies:
+  server:
+    UltimateAdvancementAPI:
+      load: BEFORE
+      required: true
+    LumaGuilds:
+      load: BEFORE
+      required: false
