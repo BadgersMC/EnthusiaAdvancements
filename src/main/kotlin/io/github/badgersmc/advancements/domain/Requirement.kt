@@ -41,7 +41,10 @@ enum class RequirementType {
     GUILD_WAR_KILL,
 
     // Playtime (guild combined)
-    GUILD_COMBINED_PLAYTIME
+    GUILD_COMBINED_PLAYTIME,
+
+    // Leaderboard rank
+    GUILD_LEADERBOARD_RANK
 }
 
 data class Requirement(
