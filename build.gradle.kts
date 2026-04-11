@@ -17,6 +17,7 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://nexus.frengor.com/repository/public/")
+    maven("https://repo.artillex-studios.com/releases/")
 }
 
 dependencies {
@@ -26,6 +27,7 @@ dependencies {
     compileOnly(files("../bell-claims/build/libs/LumaGuilds-2.0.0.jar"))
     compileOnly(files("../ItemShops/build/libs/ItemShops-1.1.1.jar"))
     compileOnly(files("../ARM-Guilds-Bridge/build/libs/ARM-Guilds-Bridge-1.0.0.jar"))
+    compileOnly("com.artillexstudios:AxKothAPI:4")
 
     // Shaded into JAR
     implementation("net.badgersmc:nexus-core:1.5.3")

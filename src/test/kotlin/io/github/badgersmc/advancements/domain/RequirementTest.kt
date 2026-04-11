@@ -18,7 +18,9 @@ class RequirementTest {
             "GUILD_COLLECTIVE_SMELT", "GUILD_COLLECTIVE_BLOCK_BREAK",
             "GUILD_COLLECTIVE_CROP_HARVEST", "GUILD_COLLECTIVE_MOB_KILL",
             "GUILD_COLLECTIVE_BOSS_KILL",
-            "GUILD_SHOP_SALE", "GUILD_SHOP_PURCHASE"
+            "GUILD_SHOP_SALE", "GUILD_SHOP_PURCHASE",
+            "KOTH_CAPTURE", "KOTH_CONSECUTIVE_CAPTURE",
+            "GUILD_WAR_KILL", "GUILD_COMBINED_PLAYTIME"
         )
         val actual = RequirementType.entries.map { it.name }.toSet()
         assertEquals(expected, actual)
@@ -26,7 +28,7 @@ class RequirementTest {
 
     @Test
     fun `requirement type count is 22`() {
-        assertEquals(24, RequirementType.entries.size)
+        assertEquals(28, RequirementType.entries.size)
     }
 
     @Test

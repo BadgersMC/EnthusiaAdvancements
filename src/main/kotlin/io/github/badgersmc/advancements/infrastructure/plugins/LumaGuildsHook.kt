@@ -116,6 +116,12 @@ class LumaGuildsHook(
         }
     }
 
+    @EventHandler
+    fun onGuildWarKill(event: GuildWarKillEvent) {
+        val killer = Bukkit.getPlayer(event.killerId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_WAR_KILL, null, killer)
+    }
+
     // --- Helpers ---
 
     /**

@@ -31,7 +31,17 @@ enum class RequirementType {
 
     // ItemShops / ARM-Guilds-Bridge - guild shop transactions
     GUILD_SHOP_SALE,
-    GUILD_SHOP_PURCHASE
+    GUILD_SHOP_PURCHASE,
+
+    // AxKoth
+    KOTH_CAPTURE,
+    KOTH_CONSECUTIVE_CAPTURE,
+
+    // War kills
+    GUILD_WAR_KILL,
+
+    // Playtime (guild combined)
+    GUILD_COMBINED_PLAYTIME
 }
 
 data class Requirement(
