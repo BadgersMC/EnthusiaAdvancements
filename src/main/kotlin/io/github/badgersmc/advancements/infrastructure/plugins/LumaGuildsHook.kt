@@ -7,6 +7,7 @@ import io.github.badgersmc.advancements.domain.RequirementType
 import net.badgersmc.nexus.annotations.Component
 import net.badgersmc.nexus.annotations.PostConstruct
 import net.lumalyte.lg.application.persistence.MemberRepository
+import net.lumalyte.lg.domain.entities.RelationType
 import net.lumalyte.lg.domain.events.*
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -120,6 +121,17 @@ class LumaGuildsHook(
     fun onGuildWarKill(event: GuildWarKillEvent) {
         val killer = Bukkit.getPlayer(event.killerId) ?: return
         GrantProgress.execute(registry, RequirementType.GUILD_WAR_KILL, null, killer)
+    }
+
+    @EventHandler
+    fun onGuildRelationChange(event: GuildRelationChangeEvent) {
+        if (event.newRelationType != RelationType.ALLY) return
+        // Grant to both guilds' online members
+        for (guildId in listOf(event.guild1, event.guild2)) {
+            for (player in getOnlineGuildMembers(guildId)) {
+                GrantProgress.execute(registry, RequirementType.GUILD_ALLIANCE_FORMED, null, player)
+            }
+        }
     }
 
     // --- Helpers ---

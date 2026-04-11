@@ -44,7 +44,10 @@ enum class RequirementType {
     GUILD_COMBINED_PLAYTIME,
 
     // Leaderboard rank
-    GUILD_LEADERBOARD_RANK
+    GUILD_LEADERBOARD_RANK,
+
+    // Diplomacy
+    GUILD_ALLIANCE_FORMED
 }
 
 data class Requirement(
