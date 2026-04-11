@@ -6,12 +6,14 @@ import io.github.badgersmc.advancements.application.ports.PluginHook
 import io.github.badgersmc.advancements.domain.RequirementType
 import net.badgersmc.nexus.annotations.Component
 import net.badgersmc.nexus.annotations.PostConstruct
-import net.lumalyte.lg.domain.events.GuildCreatedEvent
-import net.lumalyte.lg.domain.events.GuildMemberJoinEvent
+import net.lumalyte.lg.application.persistence.MemberRepository
+import net.lumalyte.lg.domain.events.*
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.UUID
 
 @Component
 class LumaGuildsHook(
@@ -40,6 +42,8 @@ class LumaGuildsHook(
         }
     }
 
+    // --- Individual guild actions (grant to the acting player) ---
+
     @EventHandler
     fun onGuildCreated(event: GuildCreatedEvent) {
         val player = Bukkit.getPlayer(event.ownerId) ?: return
@@ -50,5 +54,94 @@ class LumaGuildsHook(
     fun onGuildMemberJoin(event: GuildMemberJoinEvent) {
         val player = Bukkit.getPlayer(event.playerId) ?: return
         GrantProgress.execute(registry, RequirementType.GUILD_MEMBER_JOIN, null, player)
+    }
+
+    @EventHandler
+    fun onGuildBannerSet(event: GuildBannerSetEvent) {
+        val player = Bukkit.getPlayer(event.playerId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_BANNER_SET, null, player)
+    }
+
+    @EventHandler
+    fun onGuildHomeSet(event: GuildHomeSetEvent) {
+        val player = Bukkit.getPlayer(event.playerId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_HOME_SET, null, player)
+    }
+
+    @EventHandler
+    fun onGuildVaultPlaced(event: GuildVaultPlacedEvent) {
+        val player = Bukkit.getPlayer(event.playerId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_VAULT_PLACED, null, player)
+    }
+
+    @EventHandler
+    fun onGuildMemberRemoved(event: GuildMemberRemovedEvent) {
+        if (!event.wasKicked) return // Only counts when someone else kicks a member
+        val actor = Bukkit.getPlayer(event.actorId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_MEMBER_REMOVED, null, actor)
+    }
+
+    @EventHandler
+    fun onGuildOwnershipTransfer(event: GuildOwnershipTransferEvent) {
+        val newOwner = Bukkit.getPlayer(event.newOwnerId) ?: return
+        GrantProgress.execute(registry, RequirementType.GUILD_OWNERSHIP_TRANSFER, null, newOwner)
+    }
+
+    // --- Guild-wide events (grant to all online guild members) ---
+
+    @EventHandler
+    fun onGuildLevelUp(event: GuildLevelUpEvent) {
+        val onlineMembers = getOnlineGuildMembers(event.guildId)
+        for (player in onlineMembers) {
+            // Grant for each level threshold that's been reached
+            GrantProgress.execute(registry, RequirementType.GUILD_LEVEL_UP, event.newLevel.toString(), player)
+        }
+    }
+
+    @EventHandler
+    fun onGuildWarDeclared(event: GuildWarDeclaredEvent) {
+        // Grant to all members of the declaring guild
+        val onlineMembers = getOnlineGuildMembers(event.declaringGuildId)
+        for (player in onlineMembers) {
+            GrantProgress.execute(registry, RequirementType.GUILD_WAR_DECLARED, null, player)
+        }
+    }
+
+    @EventHandler
+    fun onGuildWarEnd(event: GuildWarEndEvent) {
+        val winnerGuildId = event.winnerGuildId ?: return // Draws don't count
+        val onlineMembers = getOnlineGuildMembers(winnerGuildId)
+        for (player in onlineMembers) {
+            GrantProgress.execute(registry, RequirementType.GUILD_WAR_WON, null, player)
+        }
+    }
+
+    // --- Helpers ---
+
+    /**
+     * Gets all online players who are members of the given guild.
+     * Uses Koin to access LumaGuilds' MemberRepository at runtime.
+     */
+    fun getOnlineGuildMembers(guildId: UUID): List<Player> {
+        return try {
+            val memberRepo = org.koin.core.context.GlobalContext.get().get<MemberRepository>()
+            val memberIds = memberRepo.getByGuild(guildId).map { it.playerId }.toSet()
+            Bukkit.getOnlinePlayers().filter { it.uniqueId in memberIds }
+        } catch (e: Exception) {
+            plugin.logger.warning("Failed to look up guild members: ${e.message}")
+            emptyList()
+        }
+    }
+
+    /**
+     * Gets the first guild ID for a player, or null if not in a guild.
+     */
+    fun getPlayerGuildId(playerId: UUID): UUID? {
+        return try {
+            val memberRepo = org.koin.core.context.GlobalContext.get().get<MemberRepository>()
+            memberRepo.getGuildsByPlayer(playerId).firstOrNull()
+        } catch (e: Exception) {
+            null
+        }
     }
 }

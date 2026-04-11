@@ -16,6 +16,7 @@ open class EnthusiaAdvancementsPlugin : JavaPlugin() {
             Files.createDirectories(treesDir)
             copyDefaultTree("trees/combat.conf")
             copyDefaultTree("trees/exploration.conf")
+            copyDefaultTree("trees/guilds.conf")
         }
 
         // Create Nexus DI context
