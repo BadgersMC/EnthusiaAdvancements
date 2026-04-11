@@ -27,7 +27,11 @@ enum class RequirementType {
     GUILD_COLLECTIVE_BLOCK_BREAK,
     GUILD_COLLECTIVE_CROP_HARVEST,
     GUILD_COLLECTIVE_MOB_KILL,
-    GUILD_COLLECTIVE_BOSS_KILL
+    GUILD_COLLECTIVE_BOSS_KILL,
+
+    // ItemShops / ARM-Guilds-Bridge - guild shop transactions
+    GUILD_SHOP_SALE,
+    GUILD_SHOP_PURCHASE
 }
 
 data class Requirement(

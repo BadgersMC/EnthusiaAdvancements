@@ -24,6 +24,8 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("com.frengor:ultimateadvancementapi-common:3.0.0-beta-1")
     compileOnly(files("../bell-claims/build/libs/LumaGuilds-2.0.0.jar"))
+    compileOnly(files("../ItemShops/build/libs/ItemShops-1.1.1.jar"))
+    compileOnly(files("../ARM-Guilds-Bridge/build/libs/ARM-Guilds-Bridge-1.0.0.jar"))
 
     // Shaded into JAR
     implementation("net.badgersmc:nexus-core:1.5.3")
