@@ -47,7 +47,12 @@ enum class RequirementType {
     GUILD_LEADERBOARD_RANK,
 
     // Diplomacy
-    GUILD_ALLIANCE_FORMED
+    GUILD_ALLIANCE_FORMED,
+
+    // Shop / Market
+    SHOP_CREATED,
+    SHOP_DELETED,
+    GUILD_REGION_PURCHASED
 }
 
 data class Requirement(

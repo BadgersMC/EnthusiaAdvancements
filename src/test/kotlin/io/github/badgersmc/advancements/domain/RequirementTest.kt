@@ -22,7 +22,8 @@ class RequirementTest {
             "KOTH_CAPTURE", "KOTH_CONSECUTIVE_CAPTURE",
             "GUILD_WAR_KILL", "GUILD_COMBINED_PLAYTIME",
             "GUILD_LEADERBOARD_RANK",
-            "GUILD_ALLIANCE_FORMED"
+            "GUILD_ALLIANCE_FORMED",
+            "SHOP_CREATED", "SHOP_DELETED", "GUILD_REGION_PURCHASED"
         )
         val actual = RequirementType.entries.map { it.name }.toSet()
         assertEquals(expected, actual)
@@ -30,7 +31,7 @@ class RequirementTest {
 
     @Test
     fun `requirement type count is 22`() {
-        assertEquals(30, RequirementType.entries.size)
+        assertEquals(33, RequirementType.entries.size)
     }
 
     @Test
