@@ -33,5 +33,35 @@ class CurrencyListener(
             val player = Bukkit.getPlayer(event.playerId) ?: return
             GrantProgress.execute(registry, RequirementType.BALTOP_ENTER, event.rank.toString(), player)
         }
+
+        @EventHandler
+        fun onDeposit(event: com.enthusia.enthusiacurrency.event.CurrencyDepositEvent) {
+            val player = Bukkit.getPlayer(event.playerId) ?: return
+            GrantProgress.execute(registry, RequirementType.CURRENCY_DEPOSIT, null, player)
+        }
+
+        @EventHandler
+        fun onWithdraw(event: com.enthusia.enthusiacurrency.event.CurrencyWithdrawEvent) {
+            val player = Bukkit.getPlayer(event.playerId) ?: return
+            GrantProgress.execute(registry, RequirementType.CURRENCY_WITHDRAW, null, player)
+        }
+
+        @EventHandler
+        fun onPay(event: com.enthusia.enthusiacurrency.event.CurrencyPayEvent) {
+            val player = Bukkit.getPlayer(event.senderId) ?: return
+            GrantProgress.execute(registry, RequirementType.CURRENCY_PAY, null, player)
+        }
+
+        @EventHandler
+        fun onPaySelf(event: com.enthusia.enthusiacurrency.event.CurrencyPaySelfAttemptEvent) {
+            val player = Bukkit.getPlayer(event.playerId) ?: return
+            GrantProgress.execute(registry, RequirementType.CURRENCY_PAY_SELF, null, player)
+        }
+
+        @EventHandler
+        fun onBalanceZero(event: com.enthusia.enthusiacurrency.event.CurrencyBalanceZeroEvent) {
+            val player = Bukkit.getPlayer(event.playerId) ?: return
+            GrantProgress.execute(registry, RequirementType.CURRENCY_BALANCE_ZERO, null, player)
+        }
     }
 }

@@ -71,5 +71,7 @@ class DiaryListener(
         fun onContainerAttempt(event: com.lincoln.diary.events.DiaryContainerAttemptEvent) {
             GrantProgress.execute(registry, RequirementType.DIARY_CONTAINER_ATTEMPT, null, event.player)
         }
+
+        // DiaryDuplicateWarningEvent handler deferred — event has no player field yet
     }
 }

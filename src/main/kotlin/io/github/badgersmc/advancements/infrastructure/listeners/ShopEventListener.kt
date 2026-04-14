@@ -27,9 +27,11 @@ class ShopEventListener(
         try {
             Class.forName("dev.enthusia.itemshops.events.ShopCreatedEvent")
             Bukkit.getPluginManager().registerEvents(ShopCreatedHandler(), plugin)
-            plugin.logger.info("ItemShops shop creation listener enabled")
+            Bukkit.getPluginManager().registerEvents(ShopDeletedHandler(), plugin)
+            Bukkit.getPluginManager().registerEvents(ShopStockHandler(), plugin)
+            plugin.logger.info("ItemShops shop listeners enabled")
         } catch (e: ClassNotFoundException) {
-            plugin.logger.info("ItemShops not available, shop creation listener disabled")
+            plugin.logger.info("ItemShops not available, shop listeners disabled")
         }
 
         // ARM-Guilds-Bridge events
@@ -47,6 +49,22 @@ class ShopEventListener(
         fun onShopCreated(event: dev.enthusia.itemshops.events.ShopCreatedEvent) {
             val player = Bukkit.getPlayer(event.ownerId) ?: return
             GrantProgress.execute(registry, RequirementType.SHOP_CREATED, null, player)
+        }
+    }
+
+    private inner class ShopDeletedHandler : Listener {
+        @EventHandler
+        fun onShopDeleted(event: dev.enthusia.itemshops.events.ShopDeletedEvent) {
+            val player = Bukkit.getPlayer(event.ownerId) ?: return
+            GrantProgress.execute(registry, RequirementType.SHOP_DELETED, null, player)
+        }
+    }
+
+    private inner class ShopStockHandler : Listener {
+        @EventHandler
+        fun onStockDepleted(event: dev.enthusia.itemshops.events.ShopStockDepletedEvent) {
+            val owner = Bukkit.getPlayer(event.ownerId) ?: return
+            GrantProgress.execute(registry, RequirementType.SHOP_STOCK_DEPLETED, null, owner)
         }
     }
 

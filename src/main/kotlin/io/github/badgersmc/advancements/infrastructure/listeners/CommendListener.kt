@@ -46,5 +46,23 @@ class CommendListener(
             val player = Bukkit.getPlayer(event.playerId) ?: return
             GrantProgress.execute(registry, RequirementType.REP_MILESTONE, event.newScore.toString(), player)
         }
+
+        @EventHandler
+        fun onProfileViewed(event: org.enthusia.rep.events.CommendationProfileViewedEvent) {
+            val player = Bukkit.getPlayer(event.viewerId) ?: return
+            GrantProgress.execute(registry, RequirementType.COMMEND_PROFILE_VIEWED, null, player)
+        }
+
+        @EventHandler
+        fun onEdited(event: org.enthusia.rep.events.CommendationEditedEvent) {
+            val player = Bukkit.getPlayer(event.giverId) ?: return
+            GrantProgress.execute(registry, RequirementType.COMMEND_EDITED, null, player)
+        }
+
+        @EventHandler
+        fun onLeaderboardViewed(event: org.enthusia.rep.events.CommendationLeaderboardViewedEvent) {
+            val player = Bukkit.getPlayer(event.viewerId) ?: return
+            GrantProgress.execute(registry, RequirementType.COMMEND_LEADERBOARD_VIEWED, null, player)
+        }
     }
 }

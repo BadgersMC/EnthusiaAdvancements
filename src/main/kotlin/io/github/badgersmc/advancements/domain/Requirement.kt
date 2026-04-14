@@ -53,6 +53,7 @@ enum class RequirementType {
     SHOP_CREATED,
     SHOP_DELETED,
     GUILD_REGION_PURCHASED,
+    SHOP_STOCK_DEPLETED,
 
     // DiaryKeeper
     DIARY_RECEIVED,
@@ -64,16 +65,29 @@ enum class RequirementType {
     DIARY_CONTAINER_ATTEMPT,
     DIARY_DUPLICATE_WARNING,
 
+    // Bukkit native — death
+    PLAYER_DEATH,
+
     // EnthusiaCurrency
     BALTOP_ENTER,
+    CURRENCY_DEPOSIT,
+    CURRENCY_WITHDRAW,
+    CURRENCY_PAY,
+    CURRENCY_PAY_SELF,
+    CURRENCY_BALANCE_ZERO,
 
     // Playtime (individual)
     PLAYER_PLAYTIME,
+    PLAYER_AFK_DETECTED,
+    PLAYER_AFK_DURATION,
 
     // EnthusiaCommend
     COMMEND_RECEIVED,
     COMMEND_GIVEN,
-    REP_MILESTONE
+    REP_MILESTONE,
+    COMMEND_PROFILE_VIEWED,
+    COMMEND_EDITED,
+    COMMEND_LEADERBOARD_VIEWED
 }
 
 data class Requirement(

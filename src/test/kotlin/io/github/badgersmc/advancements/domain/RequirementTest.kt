@@ -23,12 +23,16 @@ class RequirementTest {
             "GUILD_WAR_KILL", "GUILD_COMBINED_PLAYTIME",
             "GUILD_LEADERBOARD_RANK",
             "GUILD_ALLIANCE_FORMED",
-            "SHOP_CREATED", "SHOP_DELETED", "GUILD_REGION_PURCHASED",
+            "SHOP_CREATED", "SHOP_DELETED", "GUILD_REGION_PURCHASED", "SHOP_STOCK_DEPLETED",
             "DIARY_RECEIVED", "DIARY_FILLED", "DIARY_SIGNED", "DIARY_OBTAINED",
             "DIARY_VOID_RETURN", "DIARY_DESTRUCTION_ATTEMPT", "DIARY_CONTAINER_ATTEMPT",
             "DIARY_DUPLICATE_WARNING",
-            "BALTOP_ENTER", "PLAYER_PLAYTIME",
-            "COMMEND_RECEIVED", "COMMEND_GIVEN", "REP_MILESTONE"
+            "PLAYER_DEATH", "PLAYER_AFK_DETECTED", "PLAYER_AFK_DURATION",
+            "BALTOP_ENTER", "CURRENCY_DEPOSIT", "CURRENCY_WITHDRAW",
+            "CURRENCY_PAY", "CURRENCY_PAY_SELF", "CURRENCY_BALANCE_ZERO",
+            "PLAYER_PLAYTIME",
+            "COMMEND_RECEIVED", "COMMEND_GIVEN", "REP_MILESTONE",
+            "COMMEND_PROFILE_VIEWED", "COMMEND_EDITED", "COMMEND_LEADERBOARD_VIEWED"
         )
         val actual = RequirementType.entries.map { it.name }.toSet()
         assertEquals(expected, actual)
@@ -36,7 +40,7 @@ class RequirementTest {
 
     @Test
     fun `requirement type count is 22`() {
-        assertEquals(46, RequirementType.entries.size)
+        assertEquals(58, RequirementType.entries.size)
     }
 
     @Test

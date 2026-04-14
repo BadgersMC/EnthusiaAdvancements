@@ -31,8 +31,21 @@ class PlaytimeListener(
         @EventHandler
         fun onPlaytimeTick(event: org.enthusia.playtime.event.PlayerPlaytimeTickEvent) {
             if (event.isCancelled) return
-            if (event.getActiveMinutes() <= 0) return
-            GrantProgress.execute(registry, RequirementType.PLAYER_PLAYTIME, null, event.getPlayer())
+            val player = event.getPlayer()
+
+            // Active playtime
+            if (event.getActiveMinutes() > 0) {
+                GrantProgress.execute(registry, RequirementType.PLAYER_PLAYTIME, null, player)
+            }
+
+            // AFK detection — state is AFK or afkMinutes > 0
+            if (event.state.name == "AFK") {
+                GrantProgress.execute(registry, RequirementType.PLAYER_AFK_DETECTED, null, player)
+                // AFK duration tracking — each AFK tick = 1 minute
+                if (event.afkMinutes > 0) {
+                    GrantProgress.execute(registry, RequirementType.PLAYER_AFK_DURATION, null, player)
+                }
+            }
         }
     }
 }
