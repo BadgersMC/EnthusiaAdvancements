@@ -52,7 +52,28 @@ enum class RequirementType {
     // Shop / Market
     SHOP_CREATED,
     SHOP_DELETED,
-    GUILD_REGION_PURCHASED
+    GUILD_REGION_PURCHASED,
+
+    // DiaryKeeper
+    DIARY_RECEIVED,
+    DIARY_FILLED,
+    DIARY_SIGNED,
+    DIARY_OBTAINED,
+    DIARY_VOID_RETURN,
+    DIARY_DESTRUCTION_ATTEMPT,
+    DIARY_CONTAINER_ATTEMPT,
+    DIARY_DUPLICATE_WARNING,
+
+    // EnthusiaCurrency
+    BALTOP_ENTER,
+
+    // Playtime (individual)
+    PLAYER_PLAYTIME,
+
+    // EnthusiaCommend
+    COMMEND_RECEIVED,
+    COMMEND_GIVEN,
+    REP_MILESTONE
 }
 
 data class Requirement(

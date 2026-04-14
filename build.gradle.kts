@@ -28,6 +28,10 @@ dependencies {
     compileOnly(files("../ItemShops/build/libs/ItemShops-1.1.1.jar"))
     compileOnly(files("../ARM-Guilds-Bridge/build/libs/ARM-Guilds-Bridge-1.0.0.jar"))
     compileOnly("com.artillexstudios:AxKothAPI:4")
+    compileOnly(files("../enthusia-network/plugins/diary-keeper/target/DiaryKeeper-1.0.0.jar"))
+    compileOnly(files("../enthusia-network/plugins/enthusia-currency/target/enthusia-currency-1.3.0.jar"))
+    compileOnly(files("../enthusia-network/plugins/playtime-plugin/target/playtime-plugin-2.7.2.jar"))
+    compileOnly(files("../enthusia-network/plugins/enthusia-commend/target/commend-events.jar"))
 
     // Shaded into JAR
     implementation("net.badgersmc:nexus-core:1.5.3")
