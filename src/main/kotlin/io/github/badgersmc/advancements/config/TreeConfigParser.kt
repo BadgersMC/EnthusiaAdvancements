@@ -50,13 +50,12 @@ class TreeConfigParser(
         val conf = ConfigFactory.parseFile(path.toFile())
 
         val namespace = conf.getString("namespace")
-        val backgroundTexture = conf.getString("background-texture")
         val nodeConfigs = conf.getConfigList("nodes")
 
         require(nodeConfigs.isNotEmpty()) { "Tree '$namespace' has no nodes" }
 
         val nodes = nodeConfigs.map { parseNode(it) }
-        return TreeDef(namespace, backgroundTexture, nodes)
+        return TreeDef(namespace, nodes)
     }
 
     private fun parseNode(conf: Config): AdvancementNodeDef {

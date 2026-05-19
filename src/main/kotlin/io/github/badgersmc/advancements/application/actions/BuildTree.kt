@@ -5,8 +5,9 @@ import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI
 import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement
-import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplayBuilder
+import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType
+import com.fren_gor.ultimateAdvancementAPI.advancement.display.FancyAdvancementDisplay
 import io.github.badgersmc.advancements.application.ports.RewardExecutor
 import io.github.badgersmc.advancements.domain.AdvancementNodeDef
 import io.github.badgersmc.advancements.domain.TreeDef
@@ -16,13 +17,14 @@ import org.bukkit.Material
 
 data class BuildTreeResult(
     val tab: AdvancementTab,
-    val advancements: Map<String, Advancement>
+    val advancements: Map<String, Advancement>,
+    val rootKey: String
 )
 
 object BuildTree {
 
     fun execute(treeDef: TreeDef, api: UltimateAdvancementAPI, rewardExecutor: RewardExecutor): BuildTreeResult {
-        val tab = api.createAdvancementTab(treeDef.namespace, treeDef.backgroundTexture)
+        val tab = api.createAdvancementTab(treeDef.namespace)
         val sorted = treeDef.sortedNodes()
         val advancementMap = mutableMapOf<String, Advancement>()
         val children = mutableSetOf<BaseAdvancement>()
@@ -49,18 +51,17 @@ object BuildTree {
 
         val root = advancementMap[treeDef.root.key] as RootAdvancement
         tab.registerAdvancements(root, children)
-        tab.automaticallyShowToPlayers()
-        tab.automaticallyGrantRootAdvancement()
 
-        return BuildTreeResult(tab, advancementMap)
+        return BuildTreeResult(tab, advancementMap, treeDef.root.key)
     }
 
-    private fun buildDisplay(node: AdvancementNodeDef) =
-        AdvancementDisplayBuilder(Material.valueOf(node.icon), node.title)
-            .description(*node.description.toTypedArray())
+    private fun buildDisplay(node: AdvancementNodeDef): AdvancementDisplay {
+        return FancyAdvancementDisplay.Builder(Material.valueOf(node.icon), node.title)
+            .description(node.description)
             .frame(AdvancementFrameType.valueOf(node.frame.name))
             .showToast(node.showToast)
             .announceChat(node.announceChat)
             .coords(node.x, node.y)
             .build()
+    }
 }

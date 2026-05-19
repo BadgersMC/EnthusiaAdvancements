@@ -23,7 +23,7 @@ repositories {
 dependencies {
     // Server-provided (not shaded)
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
-    compileOnly("com.frengor:ultimateadvancementapi-common:3.0.0-beta-1")
+    compileOnly("com.frengor:ultimateadvancementapi:2.8.0")
     compileOnly(files("../bell-claims/build/libs/LumaGuilds-2.0.0.jar"))
     compileOnly(files("../ItemShops/build/libs/ItemShops-1.1.1.jar"))
     compileOnly(files("../ARM-Guilds-Bridge/build/libs/ARM-Guilds-Bridge-1.0.0.jar"))
@@ -34,13 +34,13 @@ dependencies {
     compileOnly(files("../enthusia-network/plugins/enthusia-commend/target/commend-events.jar"))
 
     // Shaded into JAR
-    implementation("net.badgersmc:nexus-core:1.5.3")
-    implementation("net.badgersmc:nexus-paper:1.5.3")
+    implementation("net.badgersmc:nexus-core:1.6.0")
+    implementation("net.badgersmc:nexus-paper:1.6.0")
     implementation("com.typesafe:config:1.4.3")
 
     // Test — compileOnly deps need to be on test runtime classpath for mocking
     testImplementation("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
-    testImplementation("com.frengor:ultimateadvancementapi-common:3.0.0-beta-1")
+    testImplementation("com.frengor:ultimateadvancementapi:2.8.0")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
     testImplementation("io.mockk:mockk:1.13.13")
