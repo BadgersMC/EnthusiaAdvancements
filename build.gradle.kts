@@ -33,6 +33,10 @@ dependencies {
     compileOnly(files("../playtime-plugin/target/playtime-plugin-3.4.0.jar"))
     compileOnly(files("../enthusia-commend/target/commend-events.jar"))
 
+    // Koin DI — LumaGuilds shadows Koin into its jar, but EA needs the
+    // API at compile-time to look up LumaGuilds services via GlobalContext.
+    compileOnly("io.insert-koin:koin-core:4.0.2")
+
     // Shaded into JAR
     implementation("net.badgersmc:nexus-core:1.6.0")
     implementation("net.badgersmc:nexus-paper:1.6.0")
