@@ -2,7 +2,6 @@ package io.github.badgersmc.advancements.domain
 
 data class TreeDef(
     val namespace: String,
-    val backgroundTexture: String,
     val nodes: List<AdvancementNodeDef>
 ) {
 

@@ -24,6 +24,7 @@ class UltimateAdvancementAdapter(
 
     private lateinit var api: UltimateAdvancementAPI
     private val tabs = mutableMapOf<String, AdvancementTab>()
+    private val rootKeys = mutableMapOf<String, String>()
     private val advancementMap = mutableMapOf<String, MutableMap<String, Advancement>>()
     private val requirementIndex = mutableMapOf<RequirementType, MutableMap<String?, MutableList<Pair<String, String>>>>()
 
@@ -40,6 +41,7 @@ class UltimateAdvancementAdapter(
             try {
                 val result = BuildTree.execute(treeDef, api, rewardExecutor)
                 tabs[treeDef.namespace] = result.tab
+                rootKeys[treeDef.namespace] = result.rootKey
                 advancementMap[treeDef.namespace] = result.advancements.toMutableMap()
 
                 // Build requirement index
@@ -65,9 +67,20 @@ class UltimateAdvancementAdapter(
     override fun reloadAll() {
         api.unregisterPluginAdvancementTabs()
         tabs.clear()
+        rootKeys.clear()
         advancementMap.clear()
         requirementIndex.clear()
         loadAllTrees()
+    }
+
+    fun showTabToPlayer(namespace: String, player: org.bukkit.entity.Player) {
+        tabs[namespace]?.showTab(player)
+    }
+
+    fun grantRootAdvancement(namespace: String, player: org.bukkit.entity.Player) {
+        val rootKey = rootKeys[namespace] ?: return
+        val root = advancementMap[namespace]?.get(rootKey) ?: return
+        root.grant(player)
     }
 
     override fun getAdvancement(treeNamespace: String, key: String): Advancement? {

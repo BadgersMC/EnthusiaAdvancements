@@ -21,7 +21,6 @@ class TreeDefTest {
 
     private fun tree(vararg nodes: AdvancementNodeDef) = TreeDef(
         namespace = "test",
-        backgroundTexture = "minecraft:textures/block/stone.png",
         nodes = nodes.toList()
     )
 

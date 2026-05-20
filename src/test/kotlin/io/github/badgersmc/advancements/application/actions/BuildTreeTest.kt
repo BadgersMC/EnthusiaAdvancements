@@ -29,7 +29,6 @@ class BuildTreeTest {
 
     private fun tree(vararg nodes: AdvancementNodeDef) = TreeDef(
         namespace = "test",
-        backgroundTexture = "minecraft:textures/block/stone.png",
         nodes = nodes.toList()
     )
 
@@ -111,8 +110,10 @@ class BuildTreeTest {
         // Verify the result type compiles and works as expected
         val result = BuildTreeResult(
             tab = mockk(),
-            advancements = mapOf("root" to mockk(), "child" to mockk())
+            advancements = mapOf("root" to mockk(), "child" to mockk()),
+            rootKey = "root"
         )
+        assertEquals("root", result.rootKey)
         assertEquals(2, result.advancements.size)
         assertTrue(result.advancements.containsKey("root"))
         assertTrue(result.advancements.containsKey("child"))
