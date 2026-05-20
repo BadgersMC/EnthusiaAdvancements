@@ -113,6 +113,7 @@ class BuildTreeTest {
             advancements = mapOf("root" to mockk(), "child" to mockk()),
             rootKey = "root"
         )
+        assertEquals("root", result.rootKey)
         assertEquals(2, result.advancements.size)
         assertTrue(result.advancements.containsKey("root"))
         assertTrue(result.advancements.containsKey("child"))
