@@ -34,8 +34,8 @@ dependencies {
     compileOnly(files("../enthusia-network/plugins/enthusia-commend/target/commend-events.jar"))
 
     // Shaded into JAR
-    implementation("net.badgersmc:nexus-core:1.5.3")
-    implementation("net.badgersmc:nexus-paper:1.5.3")
+    implementation("net.badgersmc:nexus-core:1.6.0")
+    implementation("net.badgersmc:nexus-paper:1.6.0")
     implementation("com.typesafe:config:1.4.3")
 
     // Test — compileOnly deps need to be on test runtime classpath for mocking
