@@ -1,8 +1,8 @@
-rootProject.name = "EnthusiaAdvancements"
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
     }
 }
+
+rootProject.name = "EnthusiaAdvancements"
