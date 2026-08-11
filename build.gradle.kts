@@ -18,6 +18,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://nexus.frengor.com/repository/public/")
     maven("https://repo.artillex-studios.com/releases/")
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -37,8 +38,8 @@ dependencies {
     compileOnly("io.insert-koin:koin-core:4.0.2")
 
     // Shaded into JAR
-    implementation("net.badgersmc:nexus-core:1.6.0")
-    implementation("net.badgersmc:nexus-paper:1.6.0")
+    implementation("com.github.BadgersMC.Nexus:nexus-core:2.2.0")
+    implementation("com.github.BadgersMC.Nexus:nexus-paper:2.2.0")
     implementation("com.typesafe:config:1.4.3")
 
     // Test — compileOnly deps need to be on test runtime classpath for mocking
