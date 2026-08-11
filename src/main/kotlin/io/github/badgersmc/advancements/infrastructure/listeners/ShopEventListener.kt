@@ -12,7 +12,7 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
- * Listens to ItemShops and ARM-Guilds-Bridge events for shop/market advancements.
+ * Listens to EnthusiaMarket events for shop/market advancements.
  */
 @Component
 class ShopEventListener(
@@ -23,26 +23,6 @@ class ShopEventListener(
 
     @PostConstruct
     fun initialize() {
-        // ItemShops events
-        try {
-            Class.forName("dev.enthusia.itemshops.events.ShopCreatedEvent")
-            Bukkit.getPluginManager().registerEvents(ShopCreatedHandler(), plugin)
-            Bukkit.getPluginManager().registerEvents(ShopDeletedHandler(), plugin)
-            Bukkit.getPluginManager().registerEvents(ShopStockHandler(), plugin)
-            plugin.logger.info("ItemShops shop listeners enabled")
-        } catch (e: ClassNotFoundException) {
-            plugin.logger.info("ItemShops not available, shop listeners disabled")
-        }
-
-        // ARM-Guilds-Bridge events
-        try {
-            Class.forName("net.lumalyte.armbridge.events.GuildRegionPurchasedEvent")
-            Bukkit.getPluginManager().registerEvents(RegionPurchasedHandler(), plugin)
-            plugin.logger.info("ARM-Guilds-Bridge region purchase listener enabled")
-        } catch (e: ClassNotFoundException) {
-            plugin.logger.info("ARM-Guilds-Bridge not available, region purchase listener disabled")
-        }
-
         // EnthusiaMarket events
         try {
             Class.forName("net.badgersmc.em.events.ShopCreatedEvent")
@@ -52,40 +32,6 @@ class ShopEventListener(
             plugin.logger.info("EnthusiaMarket shop listeners enabled")
         } catch (e: ClassNotFoundException) {
             plugin.logger.info("EnthusiaMarket not available, EM shop listeners disabled")
-        }
-    }
-
-    private inner class ShopCreatedHandler : Listener {
-        @EventHandler
-        fun onShopCreated(event: dev.enthusia.itemshops.events.ShopCreatedEvent) {
-            val player = Bukkit.getPlayer(event.ownerId) ?: return
-            GrantProgress.execute(registry, RequirementType.SHOP_CREATED, null, player)
-        }
-    }
-
-    private inner class ShopDeletedHandler : Listener {
-        @EventHandler
-        fun onShopDeleted(event: dev.enthusia.itemshops.events.ShopDeletedEvent) {
-            val player = Bukkit.getPlayer(event.ownerId) ?: return
-            GrantProgress.execute(registry, RequirementType.SHOP_DELETED, null, player)
-        }
-    }
-
-    private inner class ShopStockHandler : Listener {
-        @EventHandler
-        fun onStockDepleted(event: dev.enthusia.itemshops.events.ShopStockDepletedEvent) {
-            val owner = Bukkit.getPlayer(event.ownerId) ?: return
-            GrantProgress.execute(registry, RequirementType.SHOP_STOCK_DEPLETED, null, owner)
-        }
-    }
-
-    private inner class RegionPurchasedHandler : Listener {
-        @EventHandler
-        fun onRegionPurchased(event: net.lumalyte.armbridge.events.GuildRegionPurchasedEvent) {
-            val members = guildHook.getOnlineGuildMembers(event.guildId)
-            for (player in members) {
-                GrantProgress.execute(registry, RequirementType.GUILD_REGION_PURCHASED, null, player)
-            }
         }
     }
 
