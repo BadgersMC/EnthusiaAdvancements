@@ -19,7 +19,7 @@ class DiaryListener(
     @PostConstruct
     fun initialize() {
         try {
-            Class.forName("com.lincoln.diary.events.DiaryReceivedEvent")
+            Class.forName("com.p2wn.diary.events.DiaryReceivedEvent")
             Bukkit.getPluginManager().registerEvents(DiaryEventHandler(), plugin)
             plugin.logger.info("DiaryKeeper listener enabled")
         } catch (e: ClassNotFoundException) {
@@ -29,32 +29,32 @@ class DiaryListener(
 
     private inner class DiaryEventHandler : Listener {
         @EventHandler
-        fun onReceived(event: com.lincoln.diary.events.DiaryReceivedEvent) {
+        fun onReceived(event: com.p2wn.diary.events.DiaryReceivedEvent) {
             GrantProgress.execute(registry, RequirementType.DIARY_RECEIVED, null, event.player)
         }
 
         @EventHandler
-        fun onFilled(event: com.lincoln.diary.events.DiaryFilledEvent) {
+        fun onFilled(event: com.p2wn.diary.events.DiaryFilledEvent) {
             GrantProgress.execute(registry, RequirementType.DIARY_FILLED, null, event.player)
         }
 
         @EventHandler
-        fun onSigned(event: com.lincoln.diary.events.DiarySignedEvent) {
+        fun onSigned(event: com.p2wn.diary.events.DiarySignedEvent) {
             GrantProgress.execute(registry, RequirementType.DIARY_SIGNED, null, event.player)
         }
 
         @EventHandler
-        fun onObtained(event: com.lincoln.diary.events.DiaryObtainedEvent) {
+        fun onObtained(event: com.p2wn.diary.events.DiaryObtainedEvent) {
             GrantProgress.execute(registry, RequirementType.DIARY_OBTAINED, null, event.player)
         }
 
         @EventHandler
-        fun onVoidReturn(event: com.lincoln.diary.events.DiaryVoidReturnEvent) {
+        fun onVoidReturn(event: com.p2wn.diary.events.DiaryVoidReturnEvent) {
             GrantProgress.execute(registry, RequirementType.DIARY_VOID_RETURN, null, event.player)
         }
 
         @EventHandler
-        fun onDestructionAttempt(event: com.lincoln.diary.events.DiaryDestructionAttemptEvent) {
+        fun onDestructionAttempt(event: com.p2wn.diary.events.DiaryDestructionAttemptEvent) {
             // No player on Item entity — find nearest player who owns this diary
             val item = event.item
             val world = item.world
@@ -68,7 +68,7 @@ class DiaryListener(
         }
 
         @EventHandler
-        fun onContainerAttempt(event: com.lincoln.diary.events.DiaryContainerAttemptEvent) {
+        fun onContainerAttempt(event: com.p2wn.diary.events.DiaryContainerAttemptEvent) {
             GrantProgress.execute(registry, RequirementType.DIARY_CONTAINER_ATTEMPT, null, event.player)
         }
 
