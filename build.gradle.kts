@@ -25,8 +25,6 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("com.frengor:ultimateadvancementapi:2.8.0")
     compileOnly(files("../luma-guilds/build/libs/LumaGuilds-2.1.0.jar"))
-    compileOnly(files("../item-shops/build/libs/ItemShops-1.1.1.jar"))
-    compileOnly(files("../arm-guilds-bridge/build/libs/ARM-Guilds-Bridge-1.0.0.jar"))
     compileOnly("com.artillexstudios:AxKothAPI:4")
     compileOnly(files("../diary-keeper/target/DiaryKeeper-1.0.0.jar"))
     compileOnly(files("../enthusia-currency/target/enthusia-currency-1.3.0.jar"))

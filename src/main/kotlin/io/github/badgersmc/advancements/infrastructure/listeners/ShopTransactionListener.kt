@@ -44,6 +44,15 @@ class ShopTransactionListener(
         } catch (e: NoClassDefFoundError) {
             plugin.logger.warning("ItemShops classes not found, shop listener disabled")
         }
+
+        // EnthusiaMarket transaction events
+        try {
+            Class.forName("net.badgersmc.em.events.PostShopTransactionEvent")
+            Bukkit.getPluginManager().registerEvents(EMShopTransactionHandler(), plugin)
+            plugin.logger.info("EnthusiaMarket transaction listener enabled")
+        } catch (e: ClassNotFoundException) {
+            plugin.logger.info("EnthusiaMarket not available, EM transaction listener disabled")
+        }
     }
 
     @EventHandler
@@ -62,6 +71,27 @@ class ShopTransactionListener(
         // Grant GUILD_SHOP_PURCHASE to buyer
         if (buyerGuildId != null) {
             GrantProgress.execute(registry, RequirementType.GUILD_SHOP_PURCHASE, null, event.buyer)
+        }
+    }
+
+    private inner class EMShopTransactionHandler : Listener {
+        @EventHandler
+        fun onPostShopTransaction(event: net.badgersmc.em.events.PostShopTransactionEvent) {
+            val buyerGuildId = guildHook.getPlayerGuildId(event.buyer.uniqueId)
+            val sellerGuildId = guildHook.getPlayerGuildId(event.landlordId)
+
+            // Grant GUILD_SHOP_SALE to all online members of seller's guild
+            if (sellerGuildId != null) {
+                val sellerMembers = guildHook.getOnlineGuildMembers(sellerGuildId)
+                for (player in sellerMembers) {
+                    GrantProgress.execute(registry, RequirementType.GUILD_SHOP_SALE, null, player)
+                }
+            }
+
+            // Grant GUILD_SHOP_PURCHASE to buyer
+            if (buyerGuildId != null) {
+                GrantProgress.execute(registry, RequirementType.GUILD_SHOP_PURCHASE, null, event.buyer)
+            }
         }
     }
 }
