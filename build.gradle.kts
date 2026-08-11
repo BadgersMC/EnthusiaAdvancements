@@ -28,10 +28,10 @@ dependencies {
     compileOnly(files("../luma-guilds/build/libs/LumaGuilds-2.1.0.jar"))
     compileOnly(files("../enthusia-market/build/libs/EnthusiaMarket-0.2.0.jar"))
     compileOnly("com.artillexstudios:AxKothAPI:4")
-    compileOnly(files("../diary-keeper/target/DiaryKeeper-1.0.0.jar"))
+    compileOnly(files("../diary-keeper/target/DiaryKeeper-1.4.8.jar"))
     compileOnly(files("../enthusia-currency/target/enthusia-currency-1.3.0.jar"))
-    compileOnly(files("../playtime-plugin/target/playtime-plugin-3.4.0.jar"))
-    compileOnly(files("../enthusia-commend/target/commend-events.jar"))
+    compileOnly(files("../playtime-plugin/target/playtime-plugin-3.5.16.jar"))
+    compileOnly(files("../enthusia-commend/target/enthusia-commend-1.0.0.jar"))
 
     // Koin DI — LumaGuilds shadows Koin into its jar, but EA needs the
     // API at compile-time to look up LumaGuilds services via GlobalContext.
