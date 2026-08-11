@@ -26,11 +26,12 @@ object BuildTree {
     fun execute(treeDef: TreeDef, api: UltimateAdvancementAPI, rewardExecutor: RewardExecutor): BuildTreeResult {
         val tab = api.createAdvancementTab(treeDef.namespace)
         val sorted = treeDef.sortedNodes()
+        val yOffset = 1f - sorted.minOf { it.y }
         val advancementMap = mutableMapOf<String, Advancement>()
         val children = mutableSetOf<BaseAdvancement>()
 
         for (node in sorted) {
-            val display = buildDisplay(node)
+            val display = buildDisplay(node, yOffset)
 
             if (node.parentKey == null) {
                 val root = RewardableRootAdvancement(
@@ -55,13 +56,13 @@ object BuildTree {
         return BuildTreeResult(tab, advancementMap, treeDef.root.key)
     }
 
-    private fun buildDisplay(node: AdvancementNodeDef): AdvancementDisplay {
+    private fun buildDisplay(node: AdvancementNodeDef, yOffset: Float): AdvancementDisplay {
         return FancyAdvancementDisplay.Builder(Material.valueOf(node.icon), node.title)
             .description(node.description)
             .frame(AdvancementFrameType.valueOf(node.frame.name))
             .showToast(node.showToast)
             .announceChat(node.announceChat)
-            .coords(node.x, node.y)
+            .coords(node.x, node.y + yOffset)
             .build()
     }
 }
