@@ -29,9 +29,15 @@ dependencies {
     compileOnly(files("../enthusia-market/build/libs/EnthusiaMarket-0.2.0.jar"))
     compileOnly("com.artillexstudios:AxKothAPI:4")
     compileOnly(files("../diary-keeper/target/DiaryKeeper-1.4.8.jar"))
-    compileOnly(files("../enthusia-currency/target/enthusia-currency-1.3.0.jar"))
+    // NOTE: Project.files() does NOT expand glob patterns — files("../x/*.jar")
+    // is treated as a literal (missing) path and silently yields an empty
+    // classpath. fileTree() globs properly. Exact names drift with version
+    // bumps (commend 2.x, currency 1.4.x), so glob via fileTree.
+    compileOnly(fileTree("../enthusia-currency/target") { include("enthusia-currency-*.jar") })
     compileOnly(files("../playtime-plugin/target/playtime-plugin-3.5.16.jar"))
-    compileOnly(files("../enthusia-commend/target/enthusia-commend-1.0.0.jar"))
+    // The commend artifact is "EnthusiaCommend" (capital E, no hyphen) — its
+    // target jar is EnthusiaCommend-2.13.1.jar, not enthiusa-commend-*.jar.
+    compileOnly(fileTree("../enthusia-commend/target") { include("EnthusiaCommend-*.jar") })
 
     // Koin DI — LumaGuilds shadows Koin into its jar, but EA needs the
     // API at compile-time to look up LumaGuilds services via GlobalContext.
