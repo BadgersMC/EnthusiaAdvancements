@@ -35,7 +35,9 @@ dependencies {
     // / com.enthusia.enthusiacurrency.* reference goes unresolved.
     compileOnly(files("../enthusia-currency/target/enthusia-currency-*.jar"))
     compileOnly(files("../playtime-plugin/target/playtime-plugin-3.5.16.jar"))
-    compileOnly(files("../enthusia-commend/target/enthusia-commend-*.jar"))
+    // NOTE: the commend artifact is "EnthusiaCommend" (capital E, no hyphen) —
+    // its target jar is EnthusiaCommend-2.13.1.jar, not enthiusa-commend-*.jar.
+    compileOnly(files("../enthusia-commend/target/EnthusiaCommend-*.jar"))
 
     // Koin DI — LumaGuilds shadows Koin into its jar, but EA needs the
     // API at compile-time to look up LumaGuilds services via GlobalContext.
