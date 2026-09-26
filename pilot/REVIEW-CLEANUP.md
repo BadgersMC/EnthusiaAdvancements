@@ -11,6 +11,7 @@ No reward execution, changes to player data, auto-merge, release, or custom-icon
 ## September 26 CodeRabbit follow-up (SPEAR)
 
 Spec:
+
 - REQ-PILOT-REC-01: If replacement tab creation or registration fails, the renderer shall rebuild the previous tree from snapshotted inputs under its original owner and namespace, then propagate the replacement failure.
 - REQ-PILOT-REC-02: If recovery fails, the renderer shall preserve both failures and shall not index a disposed tree.
 - REQ-PILOT-VAL-01: If node descriptions, description entries, or frames are null, the API shall reject them with IllegalArgumentException.
