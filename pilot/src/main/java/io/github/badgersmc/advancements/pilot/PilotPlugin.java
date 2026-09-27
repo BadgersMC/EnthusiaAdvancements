@@ -6,17 +6,14 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay;
-import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -82,6 +79,15 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
             icon,
             definitions
         );
+        replaceTree(owner, namespace, existing, registration);
+    }
+
+    private void replaceTree(
+        Plugin owner,
+        String namespace,
+        Tree existing,
+        Registration registration
+    ) {
         replaceExistingTree(owner, namespace, existing);
         try {
             trees.put(
@@ -212,20 +218,7 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
     }
 
     static AdvancementDisplay rootDisplay(ItemStack icon) {
-        return new AdvancementDisplay(
-            icon,
-            "Enthusia",
-            AdvancementFrameType.TASK,
-            false,
-            false,
-            0,
-            0,
-            List.of(
-                "Your Enthusia challenges",
-                "View requirements and rewards here.",
-                "Claim earned rewards with /rewards."
-            )
-        );
+        return PilotDisplays.rootDisplay(icon);
     }
 
     private static BaseAdvancement createNode(
@@ -246,59 +239,7 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
     }
 
     static AdvancementDisplay nodeDisplay(Node definition) {
-        AdvancementFrameType frame = switch (definition.frame()) {
-            case "TASK" -> AdvancementFrameType.TASK;
-            case "GOAL" -> AdvancementFrameType.GOAL;
-            case "CHALLENGE" -> AdvancementFrameType.CHALLENGE;
-            default -> throw new IllegalArgumentException("Invalid frame");
-        };
-        return new AdvancementDisplay(
-            createIcon(definition),
-            definition.title(),
-            frame,
-            false,
-            false,
-            definition.x(),
-            definition.y(),
-            definition.description()
-        );
-    }
-
-    private static ItemStack createIcon(Node definition) {
-        ItemStack icon = new ItemStack(definition.icon());
-        if (
-            definition.customModelData() == null &&
-            definition.itemModel() == null
-        ) {
-            return icon;
-        }
-        ItemMeta meta = icon.getItemMeta();
-        if (meta == null) throw new IllegalArgumentException(
-            "Icon does not support metadata: " + definition.icon()
-        );
-        applyCustomModelData(definition, meta);
-        applyItemModel(definition, meta);
-        icon.setItemMeta(meta);
-        return icon;
-    }
-
-    private static void applyCustomModelData(Node definition, ItemMeta meta) {
-        if (definition.customModelData() != null) {
-            meta.setCustomModelData(definition.customModelData());
-        }
-    }
-
-    private static void applyItemModel(Node definition, ItemMeta meta) {
-        if (definition.itemModel() == null) return;
-        NamespacedKey itemModel = NamespacedKey.fromString(
-            definition.itemModel()
-        );
-        if (itemModel == null) {
-            throw new IllegalArgumentException(
-                "Invalid item model: " + definition.itemModel()
-            );
-        }
-        meta.setItemModel(itemModel);
+        return PilotDisplays.nodeDisplay(definition);
     }
 
     @Override

@@ -8,6 +8,13 @@ final class NodeChecks {
     private NodeChecks() {}
 
     static void validateIdentity(String key, String title) {
+        validateKey(key);
+        if (
+            title == null || title.isBlank()
+        ) throw new IllegalArgumentException("Missing title");
+    }
+
+    private static void validateKey(String key) {
         if (
             key == null || !key.matches("[a-z0-9/._-]+") || "root".equals(key)
         ) {
@@ -15,9 +22,6 @@ final class NodeChecks {
                 "Invalid or reserved advancement key: " + key
             );
         }
-        if (
-            title == null || title.isBlank()
-        ) throw new IllegalArgumentException("Missing title");
     }
 
     static List<String> checkedDescription(List<String> description) {
