@@ -197,7 +197,11 @@ class ProjectionContractTest {
 
     @Test
     void projectionSourceUsesConfiguredIcons() throws Exception {
-        String source = pilotSource();
+        String source = Files.readString(
+            Path.of(
+                "src/main/java/io/github/badgersmc/advancements/pilot/PilotDisplays.java"
+            )
+        );
         assertTrue(
             source.contains("setCustomModelData(definition.customModelData())")
         );
@@ -216,16 +220,19 @@ class ProjectionContractTest {
             AdvancementDisplay root = PilotPlugin.rootDisplay(
                 new ItemStack(Material.CLOCK)
             );
-            assertFalse(root.doesShowToast());
-            assertFalse(root.doesAnnounceToChat());
+            assertSilent(root);
             for (String frame : List.of("TASK", "GOAL", "CHALLENGE")) {
                 AdvancementDisplay child = PilotPlugin.nodeDisplay(
                     node("child", frame)
                 );
-                assertFalse(child.doesShowToast());
-                assertFalse(child.doesAnnounceToChat());
+                assertSilent(child);
             }
         }
+    }
+
+    private static void assertSilent(AdvancementDisplay display) {
+        assertFalse(display.doesShowToast());
+        assertFalse(display.doesAnnounceToChat());
     }
 
     private static String pilotSource() throws Exception {

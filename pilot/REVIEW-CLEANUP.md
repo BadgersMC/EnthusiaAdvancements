@@ -22,3 +22,11 @@ Prove: The old implementation failed five focused assertions: the three null-inp
 Engine/architecture: Private registration snapshots retain the cloned root icon and immutable definitions. All display inputs are constructed/validated before old-tab removal. New-tab registration failure disposes the failed tab; recovery creates a fresh tab, never reuses a disposed UAA tab. Cleanup/recovery failures remain suppressed on the original exception. Providers still own progress/rewards; no database migrations, new tracks, or deployments are included.
 
 Refine: Java 25/Paper 26.2 clean verify passes 25 tests. Coverage includes creation/registration failure recovery, mutated provider inputs, recovery failure, first registration failure, pre-removal display validation, null fields, and actual automatic notification flags for TASK/GOAL/CHALLENGE. Hosted fork review/checks remain separate gates. Live Minecraft tab replacement/reload rendering and 26.3 are not verified by these unit tests.
+
+## September 27 remaining Codacy findings (SPEAR)
+
+Spec: Preserve provider binary/source compatibility, registration recovery ordering, owner checks, and silent projection while reducing implementation and fixture complexity. Do not add tracks, execute rewards, migrate data, or deploy.
+
+Prove/engine/architecture: Keep the existing 25 behavioral and failure-path tests. Extract notification-silent display/icon construction to PilotDisplays, separate key validation from title validation, isolate replacement recovery from registration prevalidation, and move shared registration test setup to RegistrationTestSupport. The boundary fixture no longer needs a six-argument constructor; wrong-owner celebration still calls the real API directly.
+
+Refine: Java 25 clean verify passes all 25 tests after extraction. Review the final hosted reports separately. The public ProjectionService.Node record deliberately retains its ten components and all four constructor signatures: EnthusiaTags and other already-built providers link to those JVM descriptors. Changing this API solely to satisfy constructor argument-count/length metrics would require a separately coordinated provider migration. These compatibility exceptions are documented, not suppressed; remaining Codacy status must not be described as clean. No new runtime acceptance is claimed.
