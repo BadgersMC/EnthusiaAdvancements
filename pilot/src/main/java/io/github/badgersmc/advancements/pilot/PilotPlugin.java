@@ -32,8 +32,6 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
         Registration registration
     ) {}
 
-    private record Registration(ItemStack icon, List<Node> definitions) {}
-
     @Override
     public void onEnable() {
         api = UltimateAdvancementAPI.getInstance(this);
@@ -74,7 +72,7 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
         Objects.requireNonNull(owner, "Missing owner");
         Tree existing = trees.get(namespace);
         assertTreeOwner(existing, owner);
-        Registration registration = validatedRegistration(
+        Registration registration = Registration.validated(
             namespace,
             icon,
             definitions
@@ -98,39 +96,6 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
             restorePreviousTree(namespace, existing, ex);
             throw ex;
         }
-    }
-
-    private static Registration validatedRegistration(
-        String namespace,
-        ItemStack icon,
-        List<Node> definitions
-    ) {
-        if (namespace == null || !namespace.matches("[a-z0-9._-]+")) {
-            throw new IllegalArgumentException(
-                "Invalid namespace: " + namespace
-            );
-        }
-        if (icon == null) throw new IllegalArgumentException(
-            "Missing root icon"
-        );
-        if (definitions == null) throw new IllegalArgumentException(
-            "Missing node definitions"
-        );
-        for (Node definition : definitions) {
-            if (definition == null) throw new IllegalArgumentException(
-                "Null node definition"
-            );
-        }
-        Registration registration = new Registration(
-            icon.clone(),
-            List.copyOf(definitions)
-        );
-        ProjectionChecks.validateDefinitions(registration.definitions());
-        // Build displays before removing the old tab: UAA validates coordinates and icons here.
-        rootDisplay(registration.icon());
-        for (Node definition : registration.definitions())
-            nodeDisplay(definition);
-        return registration;
     }
 
     private Tree createRegisteredTree(

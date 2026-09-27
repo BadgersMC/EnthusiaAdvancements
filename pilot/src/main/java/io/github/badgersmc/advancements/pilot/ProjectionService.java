@@ -9,90 +9,28 @@ import org.bukkit.plugin.Plugin;
 
 /** Display-only API. Providers remain authoritative for progress and reward claims. */
 public interface ProjectionService {
+    /**
+     * Immutable provider DTO. Keep the canonical descriptor and compatibility overloads:
+     * already-built provider plugins link directly to these constructors.
+     */
     record Node(
-        String key,
-        String parentKey,
-        String title,
-        List<String> description,
-        Material icon,
-        Integer customModelData,
-        String itemModel,
-        String frame,
-        float x,
-        float y
+        String key, String parentKey, String title, List<String> description,
+        Material icon, Integer customModelData, String itemModel, String frame,
+        float x, float y
     ) {
-        public Node(
-            String key,
-            String parentKey,
-            String title,
-            List<String> description,
-            Material icon,
-            String frame,
-            float x,
-            float y
-        ) {
-            this(
-                key,
-                parentKey,
-                title,
-                description,
-                icon,
-                null,
-                null,
-                frame,
-                x,
-                y
-            );
+        public Node(String key, String parentKey, String title, List<String> description,
+                    Material icon, String frame, float x, float y) {
+            this(key, parentKey, title, description, icon, null, null, frame, x, y);
         }
 
-        public Node(
-            String key,
-            String parentKey,
-            String title,
-            List<String> description,
-            Material icon,
-            Integer customModelData,
-            String frame,
-            float x,
-            float y
-        ) {
-            this(
-                key,
-                parentKey,
-                title,
-                description,
-                icon,
-                customModelData,
-                null,
-                frame,
-                x,
-                y
-            );
+        public Node(String key, String parentKey, String title, List<String> description,
+                    Material icon, Integer customModelData, String frame, float x, float y) {
+            this(key, parentKey, title, description, icon, customModelData, null, frame, x, y);
         }
 
-        public Node(
-            String key,
-            String parentKey,
-            String title,
-            List<String> description,
-            Material icon,
-            String itemModel,
-            String frame,
-            float x,
-            float y
-        ) {
-            this(
-                key,
-                parentKey,
-                title,
-                description,
-                icon,
-                null,
-                itemModel,
-                frame,
-                x,
-                y
-            );
+        public Node(String key, String parentKey, String title, List<String> description,
+                    Material icon, String itemModel, String frame, float x, float y) {
+            this(key, parentKey, title, description, icon, null, itemModel, frame, x, y);
         }
 
         public Node {
