@@ -96,39 +96,11 @@ public interface ProjectionService {
         }
 
         public Node {
-            if (
-                key == null ||
-                !key.matches("[a-z0-9/._-]+") ||
-                "root".equals(key)
-            ) throw new IllegalArgumentException(
-                "Invalid or reserved advancement key: " + key
-            );
-            if (
-                title == null || title.isBlank()
-            ) throw new IllegalArgumentException("Missing title");
-            if (description == null) throw new IllegalArgumentException(
-                "Missing description"
-            );
-            for (String line : description) {
-                if (line == null) throw new IllegalArgumentException(
-                    "Null description entry"
-                );
-            }
-            description = List.copyOf(description);
+            NodeChecks.validateIdentity(key, title);
+            description = NodeChecks.checkedDescription(description);
             if (icon == null) icon = Material.CLOCK;
-            if (
-                customModelData != null && customModelData <= 0
-            ) throw new IllegalArgumentException("Invalid custom model data");
-            if (
-                itemModel != null &&
-                !itemModel.matches("[a-z0-9_.-]+:[a-z0-9/._-]+")
-            ) throw new IllegalArgumentException(
-                "Invalid item model: " + itemModel
-            );
-            if (
-                frame == null ||
-                !List.of("TASK", "GOAL", "CHALLENGE").contains(frame)
-            ) throw new IllegalArgumentException("Invalid frame");
+            NodeChecks.validateIcon(customModelData, itemModel);
+            NodeChecks.validateFrame(frame);
         }
     }
 
