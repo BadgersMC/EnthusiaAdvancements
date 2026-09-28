@@ -25,7 +25,17 @@ dependencies {
     // Server-provided (not shaded)
     compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("com.frengor:ultimateadvancementapi:2.8.1")
-    compileOnly(files("../luma-guilds/build/libs/LumaGuilds-2.1.0.jar"))
+
+    // LumaGuilds API: prefer an explicit artifact path from the monorepo/CI.
+    // Otherwise resolve any current LumaGuilds jar instead of pinning a stale filename.
+    val lumaGuildsJar = System.getenv("LUMAGUILDS_JAR")
+        ?: project.findProperty("lumaguilds.jar")?.toString()
+    if (lumaGuildsJar != null) {
+        compileOnly(files(lumaGuildsJar))
+    } else {
+        compileOnly(fileTree("../luma-guilds/build/libs") { include("LumaGuilds-*.jar") })
+    }
+
     compileOnly(files("../enthusia-market/build/libs/EnthusiaMarket-0.2.0.jar"))
     compileOnly("com.artillexstudios:AxKothAPI:4")
     compileOnly(files("../diary-keeper/target/DiaryKeeper-1.4.8.jar"))
