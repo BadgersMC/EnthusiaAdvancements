@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.0.21"
-    id("com.gradleup.shadow") version "8.3.5"
+    kotlin("jvm") version "2.3.20"
+    id("com.gradleup.shadow") version "8.3.11"
 }
 
 group = "io.github.badgersmc"
@@ -8,7 +8,7 @@ version = "1.0.0-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     // Server-provided (not shaded)
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:26.2.build.129-stable")
     compileOnly("com.frengor:ultimateadvancementapi:2.8.1")
 
     // LumaGuilds API: prefer an explicit artifact path from the monorepo/CI.
@@ -67,12 +67,12 @@ dependencies {
     implementation("com.typesafe:config:1.4.3")
 
     // Test — compileOnly deps need to be on test runtime classpath for mocking
-    testImplementation("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    testImplementation("io.papermc.paper:paper-api:26.2.build.129-stable")
     testImplementation("com.frengor:ultimateadvancementapi:2.8.1")
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
     testImplementation("io.mockk:mockk:1.13.13")
-    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.0.0")
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.2:4.116.1")
 }
 
 tasks.test {
