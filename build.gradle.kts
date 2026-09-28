@@ -36,7 +36,15 @@ dependencies {
         compileOnly(fileTree("../luma-guilds/build/libs") { include("LumaGuilds-*.jar") })
     }
 
-    compileOnly(files("../enthusia-market/build/libs/EnthusiaMarket-0.2.0.jar"))
+    // EnthusiaMarket API: prefer an explicit artifact path from the monorepo/CI.
+    // Otherwise resolve any current Market jar instead of pinning a stale filename.
+    val enthusiaMarketJar = System.getenv("ENTHUSIAMARKET_JAR")
+        ?: project.findProperty("enthusiamarket.jar")?.toString()
+    if (enthusiaMarketJar != null) {
+        compileOnly(files(enthusiaMarketJar))
+    } else {
+        compileOnly(fileTree("../enthusia-market/build/libs") { include("EnthusiaMarket-*.jar") })
+    }
     compileOnly("com.artillexstudios:AxKothAPI:4")
     compileOnly(files("../diary-keeper/target/DiaryKeeper-1.4.8.jar"))
     // NOTE: Project.files() does NOT expand glob patterns — files("../x/*.jar")
