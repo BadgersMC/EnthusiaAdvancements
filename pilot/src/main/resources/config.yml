@@ -1,0 +1,9 @@
+# Optional DiscordSRV announcement for explicit live celebrate(...) calls.
+# Progress projections and historical backfill never post to Discord.
+discord:
+  enabled: false
+  channel: awards
+  # Optional HTTPS thumbnails, keyed by "namespace/node-key".
+  # icon-urls:
+  #   enthusia/duels/first_win: https://example.org/advancement-icons/first-win.png
+  icon-urls: {}
