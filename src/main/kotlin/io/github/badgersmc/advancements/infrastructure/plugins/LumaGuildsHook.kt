@@ -8,7 +8,7 @@ import net.badgersmc.nexus.annotations.Component
 import net.badgersmc.nexus.annotations.PostConstruct
 import net.lumalyte.lg.application.persistence.MemberRepository
 import net.lumalyte.lg.domain.entities.RelationType
-import net.lumalyte.lg.domain.events.*
+import net.lumalyte.lg.api.events.*
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
