@@ -52,7 +52,13 @@ dependencies {
     // classpath. fileTree() globs properly. Exact names drift with version
     // bumps (commend 2.x, currency 1.4.x), so glob via fileTree.
     compileOnly(fileTree("../enthusia-currency/target") { include("enthusia-currency-*.jar") })
-    compileOnly(files("../playtime-plugin/target/playtime-plugin-3.5.16.jar"))
+    val enthusiaPlaytimeJar = System.getenv("ENTHUSIAPLAYTIME_JAR")
+        ?: project.findProperty("enthusiaplaytime.jar")?.toString()
+    if (enthusiaPlaytimeJar != null) {
+        compileOnly(files(enthusiaPlaytimeJar))
+    } else {
+        compileOnly(fileTree("../playtime-plugin/target") { include("playtime-plugin-*.jar") })
+    }
     // The commend artifact is "EnthusiaCommend" (capital E, no hyphen) — its
     // target jar is EnthusiaCommend-2.13.1.jar, not enthiusa-commend-*.jar.
     compileOnly(fileTree("../enthusia-commend/target") { include("EnthusiaCommend-*.jar") })

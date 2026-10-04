@@ -7,6 +7,16 @@
 
 ## How to Use This Document
 
+### BUILD-PT: Network Playtime classpath (2026-10-04)
+
+Spec: REQ-BUILD-PT; canonical main afe40d9 hardcodes playtime-plugin-3.5.16.jar while the pending canonical Playtime PR produces 3.7.2. PlaytimeListener directly references PlayerPlaytimeTickEvent, so the missing filename cannot satisfy compilation.
+
+Prove: this is build infrastructure; no gameplay behavior changes or synthetic red/green unit test applies. The candidate network checkout produces playtime-plugin-3.7.2.jar and has no 3.5.16 artifact. Local full-network validation is separate from this static classpath evidence.
+
+Engine/arch: accept ENTHUSIAPLAYTIME_JAR or enthusiaplaytime.jar, following the existing Market/Guilds build pattern. Preserve standalone discovery using a fileTree of actual Playtime artifacts. No plugin API, defaults, permissions or persistence changes.
+
+Refine: Gradle dependency configuration passed. A real Gradle compile-classpath probe resolved the exact supplied 3.7.2 artifact and confirmed its PlayerPlaytimeTickEvent API (EXACT_PLAYTIME_CLASSPATH_OK). The candidate network's buildAll passed all 22 tasks, including this root renderer's Kotlin compilation and shadowJar with actual Guilds/Market/Playtime artifacts. Hosted pilot verification and Codacy passed at implementation head e8a9a7f; the documentation refinement does not alter build behavior. No EARS validator/state helpers are present in this checkout; no helper pass is claimed. Production remains untouched. Status: local SPEAR phases complete; canonical merge and final network hosted approval remain external gates.
+
 Each task is a **self-contained work unit**. To start a task:
 
 1. Read the task description and its **References** section
