@@ -29,12 +29,17 @@ final class DiscordAdvancementIcon {
     }
 
     static byte[] encode(BufferedImage image) throws IOException {
-        if (image == null || image.getWidth() > 512 || image.getHeight() > 512)
-            throw new IOException("Missing or oversized advancement thumbnail");
+        validateImage(image);
         var output = new ByteArrayOutputStream();
         if (!ImageIO.write(image, "png", output)) throw new IOException("PNG encoder unavailable");
         if (output.size() > 1_048_576) throw new IOException("Oversized advancement attachment");
         return output.toByteArray();
+    }
+
+    private static void validateImage(BufferedImage image) throws IOException {
+        if (image == null) throw new IOException("Missing advancement thumbnail");
+        if (image.getWidth() > 512 || image.getHeight() > 512)
+            throw new IOException("Oversized advancement thumbnail");
     }
 
     @FunctionalInterface
