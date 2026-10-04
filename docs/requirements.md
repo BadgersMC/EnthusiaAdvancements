@@ -20,6 +20,9 @@
 
 ## REQ-ARCH: Architecture
 
+### REQ-BUILD-PT: Pinned playtime API
+When the network supplies an explicit Playtime artifact, the build shall compile against that artifact without requiring a legacy version in its filename.
+
 ### REQ-ARCH-01: Hexagonal Architecture
 The plugin shall follow hexagonal (ports and adapters) architecture with three layers:
 - **Domain** — Pure Kotlin models with zero framework imports
