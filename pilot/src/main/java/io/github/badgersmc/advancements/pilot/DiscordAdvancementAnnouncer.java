@@ -25,17 +25,25 @@ final class DiscordAdvancementAnnouncer {
     void announce(Player player, String namespace, ProjectionService.Node node) {
         if (!bridgeEnabled()) return;
         try {
-            if (PlayerUtil.isVanished(player)) return;
-            var channel = destination();
-            if (channel == null) return;
-            var embed = createEmbed(player, node);
-            String url = iconUrl(namespace, node.key());
-            if (url != null) embed.setThumbnail(url);
-            if (url == null && renderIcon(player, node, embed, channel)) return;
-            send(embed, channel, null);
+            announceVisible(player, namespace, node);
         } catch (RuntimeException | LinkageError failure) {
             warn("Discord advancement bridge unavailable", failure);
         }
+    }
+
+    private void announceVisible(Player player, String namespace, ProjectionService.Node node) {
+        if (PlayerUtil.isVanished(player)) return;
+        var channel = destination();
+        if (channel != null) publish(player, namespace, node, channel);
+    }
+
+    private void publish(Player player, String namespace, ProjectionService.Node node,
+        TextChannel channel) {
+        var embed = createEmbed(player, node);
+        String url = iconUrl(namespace, node.key());
+        if (url != null) embed.setThumbnail(url);
+        if (url == null && renderIcon(player, node, embed, channel)) return;
+        send(embed, channel, null);
     }
 
     private boolean bridgeEnabled() {
