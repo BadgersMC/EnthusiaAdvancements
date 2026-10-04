@@ -1,7 +1,7 @@
 name: EnthusiaAdvancements
-version: 1.0.0-pilot.6-discord-test.1
+version: 1.0.0-pilot.6-chat-colors-test.4
 main: io.github.badgersmc.advancements.pilot.PilotPlugin
 api-version: '26.2'
 depend: [UltimateAdvancementAPI]
-softdepend: [DiscordSRV]
+softdepend: [DiscordSRV, InteractiveChat, InteractiveChatDiscordSrvAddon]
 description: Projection-only Enthusia advancement renderer; no bundled challenge or reward execution.

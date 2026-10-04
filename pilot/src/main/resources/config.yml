@@ -3,6 +3,10 @@
 discord:
   enabled: false
   channel: awards
+  # Framed item thumbnails through InteractiveChatDiscordSrvAddon.
+  # Custom textures need the matching pack loaded by the addon.
+  # Missing/failed renderers fall back to text. Explicit URLs take priority.
+  auto-icons: true
   # Optional HTTPS thumbnails, keyed by "namespace/node-key".
   # icon-urls:
   #   enthusia/duels/first_win: https://example.org/advancement-icons/first-win.png

@@ -317,7 +317,9 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
                     )
             )
         ) return;
-        var message = node.getAnnounceMessage(player);
+        var message = MinecraftAdvancementColors.format(
+            node.getAnnounceMessage(player), node.getDisplay().getFrame()
+        );
         if (message != null) for (Player viewer : Bukkit.getOnlinePlayers()) {
             if (viewer.canSee(player)) viewer.spigot().sendMessage(message);
         }
