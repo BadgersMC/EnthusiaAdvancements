@@ -23,8 +23,7 @@ final class DiscordAdvancementAnnouncer {
     }
 
     void announce(Player player, String namespace, ProjectionService.Node node) {
-        if (!owner.getConfig().getBoolean("discord.enabled", false)) return;
-        if (!Bukkit.getPluginManager().isPluginEnabled("DiscordSRV")) return;
+        if (!bridgeEnabled()) return;
         try {
             if (PlayerUtil.isVanished(player)) return;
             var channel = destination();
@@ -37,6 +36,11 @@ final class DiscordAdvancementAnnouncer {
         } catch (RuntimeException | LinkageError failure) {
             warn("Discord advancement bridge unavailable", failure);
         }
+    }
+
+    private boolean bridgeEnabled() {
+        return owner.getConfig().getBoolean("discord.enabled", false)
+            && Bukkit.getPluginManager().isPluginEnabled("DiscordSRV");
     }
 
     private TextChannel destination() {
@@ -63,7 +67,7 @@ final class DiscordAdvancementAnnouncer {
         EmbedBuilder embed, TextChannel channel) {
         if (!owner.getConfig().getBoolean("discord.auto-icons", true)) return false;
         var addon = Bukkit.getPluginManager().getPlugin("InteractiveChatDiscordSrvAddon");
-        if (addon == null || !addon.isEnabled() || !iconJobs.tryAcquire()) return false;
+        if (!reserveIconJob(addon)) return false;
         try {
             var job = DiscordAdvancementIcon.prepare(addon.getClass().getClassLoader(), player,
                 PilotDisplays.createIcon(node), node.frame());
@@ -75,6 +79,10 @@ final class DiscordAdvancementAnnouncer {
             warn("Discord advancement renderer unavailable; sending text only", failure);
             return false;
         }
+    }
+
+    private boolean reserveIconJob(Plugin addon) {
+        return addon != null && addon.isEnabled() && iconJobs.tryAcquire();
     }
 
     private void render(PendingIcon pending) {

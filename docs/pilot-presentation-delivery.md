@@ -33,6 +33,7 @@ The repository has no local EARS validator or SPEAR state helper. The existing e
 The first hosted verify passed at 38b8c0e. Codacy reported five method size/complexity findings plus two generic post-regex string-modification warnings. Delivery is now separated into channel resolution, embed construction, rendering, main-thread callback and sending; PNG dimension validation is separated from encoding. These are behavior-preserving adapter refactors, not changed retry or delivery semantics.
 
 Security disposition for DiscordAdvancementNotice.clean: HEX_COLOR and LEGACY_COLOR use Matcher.replaceAll to remove presentation markup; neither performs a security validation or an allow/deny decision. Later fullwidth-at conversion and CR normalization are output sanitization. No filesystem, SQL, permission, URL authorization or other validated identifier consumes this output. The post-validation-modification warning is therefore a false positive in this context. Do not suppress the rules or claim the hosted gate passes before refreshed results and review accept this disposition.
+
 ## Delivery boundary
 
 The Maven pilot and Kotlin root distribution are alternative profiles with the same plugin name. Never install both. This PR changes the pilot only. In-game titles/tooltips and resource-pack frame textures are not globally rewritten; only announcement component frame colors change. Full tooltips, custom item models, provider-owned completion state and rewards remain unchanged. No production upload, config edit, activation or restart is part of this delivery.
