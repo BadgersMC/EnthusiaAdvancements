@@ -3,6 +3,7 @@ package io.github.badgersmc.advancements.infrastructure.plugins
 import io.github.badgersmc.advancements.application.actions.GrantProgress
 import io.github.badgersmc.advancements.application.ports.AdvancementRegistry
 import io.github.badgersmc.advancements.application.ports.PluginHook
+import io.github.badgersmc.advancements.api.events.EnthusiaAdvancementCompletedEvent
 import io.github.badgersmc.advancements.domain.RequirementType
 import net.badgersmc.nexus.annotations.Component
 import net.badgersmc.nexus.annotations.PostConstruct
@@ -23,6 +24,7 @@ class LumaGuildsHook(
 ) : PluginHook, Listener {
 
     override val pluginName: String = "LumaGuilds"
+    private var supportsExplorationMilestoneApi = false
 
     override fun isAvailable(): Boolean {
         return Bukkit.getPluginManager().isPluginEnabled("LumaGuilds")
@@ -36,10 +38,37 @@ class LumaGuildsHook(
         }
 
         try {
+            supportsExplorationMilestoneApi = runCatching {
+                Class.forName(
+                    "net.lumalyte.lg.api.events.GuildExplorationMilestoneEvent",
+                    false,
+                    plugin.server.pluginManager.getPlugin("LumaGuilds")?.javaClass?.classLoader,
+                )
+            }.isSuccess
             Bukkit.getPluginManager().registerEvents(this, plugin)
             plugin.logger.info("LumaGuilds integration enabled")
+            if (!supportsExplorationMilestoneApi) {
+                plugin.logger.info("LumaGuilds custom advancement XP bridge unavailable; update LumaGuilds to a build with GuildExplorationMilestoneEvent")
+            }
         } catch (e: NoClassDefFoundError) {
             plugin.logger.warning("LumaGuilds classes not found on classpath, skipping guild hooks")
+        }
+    }
+
+    @EventHandler
+    fun onAdvancementCompleted(event: EnthusiaAdvancementCompletedEvent) {
+        if (!supportsExplorationMilestoneApi) return
+        try {
+            Bukkit.getPluginManager().callEvent(
+                GuildExplorationMilestoneEvent(
+                    event.player,
+                    "EnthusiaAdvancements",
+                    "${event.namespace}:${event.key}",
+                )
+            )
+        } catch (error: NoClassDefFoundError) {
+            supportsExplorationMilestoneApi = false
+            plugin.logger.warning("LumaGuilds custom advancement XP bridge became unavailable: ${error.message}")
         }
     }
 
