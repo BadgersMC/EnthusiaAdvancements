@@ -30,6 +30,12 @@ class GrantProgressTest {
     }
 
     @Test
+    fun `verified KOTH cannot increment through ordinary progress triggers`() {
+        GrantProgress.execute(registry,RequirementType.EKOTH_VERIFIED_CHALLENGE,"sovereign_blade",player)
+        verify(exactly=0) { registry.findByRequirement(any(),any()) }
+    }
+
+    @Test
     fun `calls findByRequirement on registry`() {
         every { registry.findByRequirement(any(), any()) } returns emptyList()
 
