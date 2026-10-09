@@ -14,6 +14,12 @@ import kotlin.test.assertTrue
  * Full integration testing of BuildTree is done in P8-T2 on a live server.
  */
 class BuildTreeTest {
+    @Test fun `retired capture nodes cannot pay configured rewards`() {
+        for (type in listOf(RequirementType.KOTH_CAPTURE, RequirementType.KOTH_CONSECUTIVE_CAPTURE)) {
+            val legacy = node("legacy").copy(requirement = Requirement(type), rewards = listOf(Reward.Experience(500)))
+            assertTrue(BuildTree.rewardsFor("guilds", legacy).isEmpty())
+        }
+    }
     @Test fun `provider owned trees suppress rewards even after requirement editing`() {
         val reward=io.github.badgersmc.advancements.domain.Reward.Experience(100)
         val plain=node("root").copy(rewards=listOf(reward))

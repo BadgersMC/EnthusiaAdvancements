@@ -5,8 +5,26 @@ import io.github.badgersmc.advancements.infrastructure.advancement.UltimateAdvan
 import io.mockk.*
 import org.bukkit.command.CommandSender
 import org.junit.jupiter.api.Test
+import io.github.badgersmc.advancements.domain.RequirementType
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class VerifiedKothGrantTest {
+    @Test fun `retired capture requirements block administrative grants in saved trees`() {
+        val adapter = UltimateAdvancementAdapter(mockk(), mockk(), mockk(), mockk())
+        val field = UltimateAdvancementAdapter::class.java.getDeclaredField("requirementIndex")
+        field.isAccessible = true
+        field.set(adapter, mutableMapOf(
+            RequirementType.KOTH_CAPTURE to mutableMapOf<String?, MutableList<Pair<String, String>>>(null to mutableListOf("guilds" to "capture")),
+            RequirementType.KOTH_CONSECUTIVE_CAPTURE to mutableMapOf<String?, MutableList<Pair<String, String>>>(null to mutableListOf("guilds" to "streak"))
+        ))
+        val sender = mockk<CommandSender>(relaxed = true)
+        for (key in listOf("capture", "streak")) {
+            assertTrue(adapter.isProviderOwned("guilds", key))
+            AdvancementCommand(adapter).grant(sender, "someone", "guilds", key)
+        }
+        assertFalse(adapter.isProviderOwned("guilds", "ordinary"))
+    }
     @Test fun `admin grant cannot authorize a provider-owned advancement`() {
         val adapter=mockk<UltimateAdvancementAdapter>()
         val sender=mockk<CommandSender>(relaxed=true)

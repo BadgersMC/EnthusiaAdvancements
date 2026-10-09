@@ -23,7 +23,7 @@ data class BuildTreeResult(
 
 object BuildTree {
     internal fun rewardsFor(namespace:String,node:AdvancementNodeDef):List<io.github.badgersmc.advancements.domain.Reward> =
-        if(namespace == "ekoth" || node.requirement?.type == io.github.badgersmc.advancements.domain.RequirementType.EKOTH_VERIFIED_CHALLENGE) emptyList() else node.rewards
+        if(namespace == "ekoth" || node.requirement?.type == io.github.badgersmc.advancements.domain.RequirementType.EKOTH_VERIFIED_CHALLENGE || node.requirement?.type?.isRetiredKoth == true) emptyList() else node.rewards
 
     fun execute(treeDef: TreeDef, api: UltimateAdvancementAPI, rewardExecutor: RewardExecutor): BuildTreeResult {
         val tab = api.createAdvancementTab(treeDef.namespace)

@@ -18,7 +18,7 @@ the lifetime ownership/claims ledger. Percent progress from KothProgressionV1 is
 
 Prove: existing AxKOTH listener grants every online guild member; join listener
 grants roots; admin command grants arbitrary nodes. These paths are forbidden for
-the new provider-owned nodes. Existing AxKOTH-specific trees keep their semantics.
+the new provider-owned nodes. AxKOTH support was subsequently retired: existing capture tokens remain parseable to preserve saved trees, but cannot progress, receive administrative grants or pay rewards. No old capture is translated into verified eKOTH credit. Existing tree layouts and player records are retained; the dedicated eKOTH tree supplies current challenges.
 No historical red run is invented. No EARS/state helpers exist here.
 
 Engine/arch: checked-in read-only API mirror excluded from shadowJar; optional

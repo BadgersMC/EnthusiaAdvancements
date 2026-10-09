@@ -17,7 +17,6 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://nexus.frengor.com/repository/public/")
-    maven("https://repo.artillex-studios.com/releases/")
     maven("https://jitpack.io")
 }
 
@@ -45,7 +44,6 @@ dependencies {
     } else {
         compileOnly(fileTree("../enthusia-market/build/libs") { include("EnthusiaMarket-*.jar") })
     }
-    compileOnly("com.artillexstudios:AxKothAPI:4")
     compileOnly(files("../diary-keeper/target/DiaryKeeper-1.4.8.jar"))
     // NOTE: Project.files() does NOT expand glob patterns — files("../x/*.jar")
     // is treated as a literal (missing) path and silently yields an empty
