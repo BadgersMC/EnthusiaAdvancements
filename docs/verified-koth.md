@@ -37,3 +37,6 @@ The pilot clean Maven verification remains a separate supported contract check.
 Production, TEST activation, exact runtime provider availability and client
 acceptance remain separate gates. Source changes require reviewed PRs and network
 pin verification before a production release.
+Merge review: Codacy identified a labeled return in the periodic provider hook.
+Projection now uses a named method with an ordinary return; unavailable providers
+still preserve display state and cannot fall back to unverified progression.

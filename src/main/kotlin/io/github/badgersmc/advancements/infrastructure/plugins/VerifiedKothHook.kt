@@ -11,12 +11,14 @@ import org.bukkit.plugin.java.JavaPlugin
 class VerifiedKothHook(private val plugin:JavaPlugin,private val adapter:UltimateAdvancementAdapter) {
     @PostConstruct fun register() {
         // No lifecycle-event or AxKOTH fallback: unavailable/disabled means no credit.
-        Bukkit.getScheduler().runTaskTimer(plugin,Runnable {
-            val provider=runCatching { Bukkit.getServicesManager().load(KothProgressionV1::class.java) }.getOrNull() ?: return@Runnable
-            Bukkit.getOnlinePlayers().forEach { player ->
-                runCatching { provider.progress(player.uniqueId)?.let { adapter.projectKoth(player,it) } }
-                    .onFailure { plugin.logger.warning("Verified KOTH progress unavailable: ${it.message}") }
-            }
-        },20L,200L)
+        Bukkit.getScheduler().runTaskTimer(plugin,Runnable { projectOnlinePlayers() },20L,200L)
+    }
+
+    private fun projectOnlinePlayers() {
+        val provider=runCatching { Bukkit.getServicesManager().load(KothProgressionV1::class.java) }.getOrNull() ?: return
+        Bukkit.getOnlinePlayers().forEach { player ->
+            runCatching { provider.progress(player.uniqueId)?.let { adapter.projectKoth(player,it) } }
+                .onFailure { plugin.logger.warning("Verified KOTH progress unavailable: ${it.message}") }
+        }
     }
 }
