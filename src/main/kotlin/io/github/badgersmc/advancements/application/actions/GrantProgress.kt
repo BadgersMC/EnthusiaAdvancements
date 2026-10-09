@@ -15,7 +15,7 @@ object GrantProgress {
         player: Player,
         onCompleted: (Player, String, String) -> Unit = ::publishCompleted,
     ) {
-        if (type == RequirementType.EKOTH_VERIFIED_CHALLENGE) return
+        if (type == RequirementType.EKOTH_VERIFIED_CHALLENGE || type.isRetiredKoth) return
         val matches = registry.findByRequirement(type, target)
         for ((namespace, key) in matches) {
             if(namespace == "ekoth") continue

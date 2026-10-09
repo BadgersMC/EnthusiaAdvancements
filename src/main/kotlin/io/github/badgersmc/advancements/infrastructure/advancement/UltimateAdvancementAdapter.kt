@@ -88,7 +88,10 @@ class UltimateAdvancementAdapter(
         return advancementMap[treeNamespace]?.get(key)
     }
     fun isProviderOwned(namespace:String,key:String):Boolean = namespace == "ekoth" ||
-        requirementIndex[RequirementType.EKOTH_VERIFIED_CHALLENGE]?.values.orEmpty().any { (namespace to key) in it }
+        requirementIndex.any { (type, targets) ->
+            (type == RequirementType.EKOTH_VERIFIED_CHALLENGE || type.isRetiredKoth) &&
+                targets.values.any { (namespace to key) in it }
+        }
 
     fun projectKoth(player:org.bukkit.entity.Player,progress:Map<String,Int>) {
         require(progress.values.all { it in 0..100 }) { "Invalid verified KOTH progress" }

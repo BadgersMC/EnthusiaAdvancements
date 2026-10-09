@@ -36,6 +36,13 @@ class GrantProgressTest {
     }
 
     @Test
+    fun `retired capture types cannot increment saved trees`() {
+        GrantProgress.execute(registry, RequirementType.KOTH_CAPTURE, null, player)
+        GrantProgress.execute(registry, RequirementType.KOTH_CONSECUTIVE_CAPTURE, null, player)
+        verify(exactly = 0) { registry.findByRequirement(any(), any()) }
+    }
+
+    @Test
     fun `calls findByRequirement on registry`() {
         every { registry.findByRequirement(any(), any()) } returns emptyList()
 
