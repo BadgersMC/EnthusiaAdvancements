@@ -76,6 +76,8 @@ dependencies {
     testImplementation("io.papermc.paper:paper-api:26.2.build.129-stable")
     testImplementation("com.frengor:ultimateadvancementapi:2.8.1")
     testImplementation(kotlin("test"))
+    testImplementation(enforcedPlatform("org.junit:junit-bom:5.14.4"))
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
     testImplementation("io.mockk:mockk:1.13.13")
     testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.2:4.116.1")
@@ -86,6 +88,7 @@ tasks.test {
 }
 
 tasks.shadowJar {
+    exclude("net/badgersmc/ek/api/**")
     archiveClassifier.set("")
     relocate("net.badgersmc.nexus", "io.github.badgersmc.advancements.lib.nexus")
 }

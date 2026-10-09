@@ -35,6 +35,7 @@ enum class RequirementType {
 
     // AxKoth
     KOTH_CAPTURE,
+    EKOTH_VERIFIED_CHALLENGE,
     KOTH_CONSECUTIVE_CAPTURE,
 
     // War kills

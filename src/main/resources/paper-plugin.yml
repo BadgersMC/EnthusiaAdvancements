@@ -7,6 +7,10 @@ authors:
   - BadgersMC
 dependencies:
   server:
+    EnthusiaKOTH:
+      load: BEFORE
+      required: false
+      join-classpath: true
     UltimateAdvancementAPI:
       load: BEFORE
       required: true
