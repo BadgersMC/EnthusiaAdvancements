@@ -39,11 +39,8 @@ final class PilotDisplays {
         };
         return new ParsedAdvancementDisplay(
             createIcon(definition),
-            definition.title(),
-            frame,
-            definition.x(),
-            definition.y(),
-            definition.description()
+            definition,
+            frame
         );
     }
 
