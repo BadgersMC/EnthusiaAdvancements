@@ -678,3 +678,5 @@ P1-T1 (Gradle)
 | 7: Plugin Hooks | 1 | 0 | 0 |
 | 8: Integration | 2 | 2 | 0 |
 | **Total** | **23** | **8** | **6** |
+
+- [x] REQ-PILOT-HOVER-001: prove real UAA display emits raw code text; parsed component title/hover adapter, regression and canonical pilot build; reviewable PR and native TEST acceptance pending. No EARS/state helpers available.

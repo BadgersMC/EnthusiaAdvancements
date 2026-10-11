@@ -250,3 +250,6 @@ The plugin shall have integration tests (with mocked UAAPI) verifying:
 | AC-07 | Invalid tree configs produce clear error messages | Unit test |
 | AC-08 | All domain/action tests pass | CI / `./gradlew test` |
 | AC-09 | Plugin starts cleanly without LumaGuilds installed | Manual server test |
+
+### REQ-PILOT-HOVER-001
+WHEN a provider title or description contains legacy RGB or formatting codes THE SYSTEM SHALL render them as parsed chat components in advancement announcement titles and hover tooltips, retaining default frame color for uncolored text, preserving title/description boundaries, and never emitting raw section-code text to the client. Ownership, progress, DTO descriptors and toast displays SHALL remain unchanged.
