@@ -8,30 +8,35 @@ import net.md_5.bungee.api.chat.TextComponent;
 /** Changes only frame-colored chat text on a copy, never shared display data. */
 final class MinecraftAdvancementColors {
     private MinecraftAdvancementColors() {}
+    record Announcement(String namespace, String key, String title) {}
 
     static BaseComponent[] format(BaseComponent[] original, AdvancementFrameType frame) {
-        return format(original, frame, null, null, null);
+        return format(original, frame, null);
     }
 
-    static BaseComponent[] format(BaseComponent[] original, AdvancementFrameType frame,
-                                  String namespace, String key, String title) {
+    static BaseComponent[] format(BaseComponent[] original, AdvancementFrameType frame, Announcement announcement) {
         if (original == null) return null;
-        ChatColor replacement = frame == AdvancementFrameType.CHALLENGE
-                ? ChatColor.DARK_RED : ChatColor.GOLD;
-        if ("holidays".equals(namespace) && isWatcher(key) && title != null && !title.isBlank()) {
-            for (BaseComponent part : TextComponent.fromLegacyText(title)) {
-                if (!part.toPlainText().isEmpty() && part.getColorRaw() != null) {
-                    replacement = part.getColorRaw();
-                    break;
-                }
-            }
-        }
+        ChatColor replacement = palette(frame, announcement);
         BaseComponent[] result = new BaseComponent[original.length];
         for (int i = 0; i < original.length; i++) {
             result[i] = original[i].duplicate();
             recolor(result[i], frame.getColor(), replacement);
         }
         return result;
+    }
+
+    private static ChatColor palette(AdvancementFrameType frame, Announcement announcement) {
+        ChatColor fallback = frame == AdvancementFrameType.CHALLENGE ? ChatColor.DARK_RED : ChatColor.GOLD;
+        if (announcement == null || !"holidays".equals(announcement.namespace()) || !isWatcher(announcement.key())) return fallback;
+        return titleColor(announcement.title(), fallback);
+    }
+
+    private static ChatColor titleColor(String title, ChatColor fallback) {
+        if (title == null || title.isBlank()) return fallback;
+        for (BaseComponent part : TextComponent.fromLegacyText(title)) {
+            if (!part.toPlainText().isEmpty() && part.getColorRaw() != null) return part.getColorRaw();
+        }
+        return fallback;
     }
 
     private static boolean isWatcher(String key) {
