@@ -4,6 +4,8 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameT
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
+import java.util.Arrays;
+import java.util.Objects;
 
 /** Changes only frame-colored chat text on a copy, never shared display data. */
 final class MinecraftAdvancementColors {
@@ -33,10 +35,12 @@ final class MinecraftAdvancementColors {
 
     private static ChatColor titleColor(String title, ChatColor fallback) {
         if (title == null || title.isBlank()) return fallback;
-        for (BaseComponent part : TextComponent.fromLegacyText(title)) {
-            if (!part.toPlainText().isEmpty() && part.getColorRaw() != null) return part.getColorRaw();
-        }
-        return fallback;
+        return Arrays.stream(TextComponent.fromLegacyText(title))
+                .filter(part -> !part.toPlainText().isEmpty())
+                .map(BaseComponent::getColorRaw)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(fallback);
     }
 
     private static boolean isWatcher(String key) {
