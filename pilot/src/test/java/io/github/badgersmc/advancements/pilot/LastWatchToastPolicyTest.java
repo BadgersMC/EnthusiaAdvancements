@@ -26,8 +26,7 @@ class LastWatchToastPolicyTest {
     @Test void targetUsesCustomToastWithoutMutatingNodeAndOtherChallengeUsesOriginalToast() {
         var node = mock(BaseAdvancement.class);
         var display = mock(AdvancementDisplay.class);
-        var player = mock(Player.class);
-        var icon = mock(ItemStack.class);
+        var player = mock(Player.class); var icon = mock(ItemStack.class);
         when(node.getDisplay()).thenReturn(display);
         when(display.getFrame()).thenReturn(AdvancementFrameType.CHALLENGE);
         when(display.getIcon()).thenReturn(icon);
