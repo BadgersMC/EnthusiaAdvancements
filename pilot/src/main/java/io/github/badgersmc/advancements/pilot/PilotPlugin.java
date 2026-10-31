@@ -6,6 +6,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay;
+import com.fren_gor.ultimateAdvancementAPI.util.AdvancementUtils;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -307,7 +308,8 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
         if (tree == null || !ready(player)) return;
         BaseAdvancement node = tree.nodes().get(key);
         if (node == null || !node.isGranted(player)) return;
-        node.displayToastToPlayer(player);
+        var toastFrame = LastWatchToastPolicy.toastFrame(namespace, key, node.getDisplay().getFrame());
+        LastWatchToastPolicy.show(node, player, AdvancementUtils::displayToast, toastFrame);
         if (
             Boolean.FALSE.equals(
                 player
