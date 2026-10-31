@@ -33,14 +33,15 @@ class LastWatchToastPolicyTest {
         when(display.getIcon()).thenReturn(icon);
         when(display.getTitle()).thenReturn("The Last Watch");
         var calls = new java.util.ArrayList<AdvancementFrameType>();
-        LastWatchToastPolicy.show("holidays", "last_watch", node, player, (p, i, t, f) -> {
+        LastWatchToastPolicy.show(node, player, (p, i, t, f) -> {
             assertSame(player, p); assertSame(icon, i); assertEquals("The Last Watch", t); calls.add(f);
-        });
+        }, LastWatchToastPolicy.toastFrame("holidays", "last_watch", AdvancementFrameType.CHALLENGE));
         assertEquals(java.util.List.of(AdvancementFrameType.TASK), calls);
         verify(node, never()).displayToastToPlayer(any());
         verify(display).getFrame(); verify(display).getIcon(); verify(display).getTitle();
         verifyNoMoreInteractions(display);
-        LastWatchToastPolicy.show("holidays", "other", node, player, (p, i, t, f) -> fail("unexpected custom toast"));
+        LastWatchToastPolicy.show(node, player, (p, i, t, f) -> fail("unexpected custom toast"),
+            LastWatchToastPolicy.toastFrame("holidays", "other", AdvancementFrameType.CHALLENGE));
         verify(node).displayToastToPlayer(player);
     }
 }

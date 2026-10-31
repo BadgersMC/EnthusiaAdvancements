@@ -308,7 +308,8 @@ public final class PilotPlugin extends JavaPlugin implements ProjectionService {
         if (tree == null || !ready(player)) return;
         BaseAdvancement node = tree.nodes().get(key);
         if (node == null || !node.isGranted(player)) return;
-        LastWatchToastPolicy.show(namespace, key, node, player, AdvancementUtils::displayToast);
+        var toastFrame = LastWatchToastPolicy.toastFrame(namespace, key, node.getDisplay().getFrame());
+        LastWatchToastPolicy.show(node, player, AdvancementUtils::displayToast, toastFrame);
         if (
             Boolean.FALSE.equals(
                 player

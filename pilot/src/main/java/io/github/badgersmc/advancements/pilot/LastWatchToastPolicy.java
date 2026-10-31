@@ -19,10 +19,9 @@ final class LastWatchToastPolicy {
         void show(Player player, ItemStack icon, String title, AdvancementFrameType frame);
     }
 
-    static void show(String namespace, String key, BaseAdvancement node, Player player, CustomToast custom) {
+    static void show(BaseAdvancement node, Player player, CustomToast custom, AdvancementFrameType toastFrame) {
         var display = node.getDisplay();
         var actualFrame = display.getFrame();
-        var toastFrame = toastFrame(namespace, key, actualFrame);
         if (toastFrame == actualFrame) {
             node.displayToastToPlayer(player);
         } else {
